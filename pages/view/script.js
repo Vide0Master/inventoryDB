@@ -6,7 +6,6 @@ async function render() {
     let item = await request('/api/US_get_id', '', { id: input.get('id') })
     if (item.data) {
         item = item.data[0]
-        console.log(item)
         const data_elements = {
             inv_number: 'Інвентарний номер',
             item_name: 'Назва',

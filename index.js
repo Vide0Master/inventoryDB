@@ -55,3 +55,5 @@ app.listen(port, () => {
     clog(`Сервер доступний по порту:${port}`, 's')
     clog(`Розмір бази данних складає: ${fsf(fs.statSync('./inventory.db').size)}`,'i')
 });
+
+//sexual test!

@@ -50,8 +50,8 @@ fs.readdirSync(pagesPath).forEach(page => {
 
 // Запуск сервера
 app.listen(port, () => {
-    //flog.createFile()
-    //clog(flog.get_log_info(), 'i')
+    flog.createFile()
+    clog(flog.get_log_info(), 'i')
     clog(`Сервер доступний по порту:${port}`, 's')
     clog(`Розмір бази данних складає: ${fsf(fs.statSync('./inventory.db').size)}`,'i')
 });

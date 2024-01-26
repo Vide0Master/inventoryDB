@@ -1,7 +1,11 @@
 init_type_editor()
 
 async function init_type_editor() {
-    const block_body = document.getElementById('type_editor')
+    const par_body = document.querySelector('.parameter_blocks')
+    const block_body = document.createElement('div')
+    block_body.className = 'type_editor'
+    block_body.id = 'type_editor'
+    par_body.appendChild(block_body)
 
     const par_label = document.createElement('div')
     par_label.innerText = 'Редагування типів'
@@ -35,7 +39,7 @@ async function init_type_editor() {
             const rtr = await request('/api/db_interact', 'edit_item_types', { type: 'add', name: ntype })
             alert(rtr.data.message, 4000, rtr.data.msg_type)
             await fill_type_table(type_table)
-            document.getElementById('type_insert_value').value=""
+            document.getElementById('type_insert_value').value = ""
         }
     })
 }

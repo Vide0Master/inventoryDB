@@ -24,12 +24,15 @@ const data_elements = {
     user: 'Користувач'
 }
 
+let reboot = false;
+
 const db_interact = (req) => {
     return new Promise((resolve) => {
         db.all('SELECT * FROM users WHERE login = ? AND private_key = ?', [req.user.login, req.user.key], (err, rows) => {
             if (err) {
                 resolve({ result: 'error', message: `Помилка бази даних:${err}` });
-            } else if (rows.length > 0 && rows[0].private_key!='') {
+            } else if (rows.length > 0 && rows[0].private_key != '') {
+                const user_acc = rows[0]
                 let query = "", values = ""
                 switch (req.type) {
                     case 'get_user': {
@@ -118,7 +121,7 @@ const db_interact = (req) => {
                             if (err) {
                                 resolve({ result: 'error', message: `Помилка бази даних:${err}` });
                             } else {
-                                resolve({ result: 'succ', message:'Успішне переміщення' });
+                                resolve({ result: 'succ', message: 'Успішне переміщення' });
                             }
                         });
                     }
@@ -150,10 +153,10 @@ const db_interact = (req) => {
                     case 'edit_item_types': {
                         switch (req.arguments.type) {
                             case 'add': {
-                                if(String(req.arguments.name).length>data_limits.item_type){
-                                    resolve({ result: 'success', data: { message: `Перевищення ліміту довжини назви типу на ${String(req.arguments.name).length-data_limits.item_type}`, msg_type: 'error' } });
+                                if (String(req.arguments.name).length > data_limits.item_type) {
+                                    resolve({ result: 'success', data: { message: `Перевищення ліміту довжини назви типу на ${String(req.arguments.name).length - data_limits.item_type}`, msg_type: 'error' } });
                                     return
-                                }else{
+                                } else {
                                     db.run(`INSERT INTO inv_item_types (type) VALUES ("${req.arguments.name}")`, (err) => {
                                         if (err) {
                                             resolve({ result: 'success', data: { message: `Помилка [${err}] при додаванні типу "${req.arguments.name}"`, msg_type: 'error' } });
@@ -174,13 +177,28 @@ const db_interact = (req) => {
                             }; break;
                         }
                     }; break;
+                    case 'reboot_n_update': {
+                        if (req.arguments.rq_type == 'shutdown') {
+                            if (req.arguments.pass == user_acc.password) {
+                                resolve({ result: "warn", message: `Команда перезавантаження отримана`})
+                                setTimeout(() => {
+                                    process.exit()
+                                }, 10);
+                            } else {
+                                resolve({ result: "error", message: 'Вказано невірний пароль!' })
+                            }
+                        } else {
+                            resolve({ result: "succ", message: 'Перезавантаження завершене!' })
+                        }
+                    }
+                    default: { resolve({ result: "error", message: `Невдала обробка запиту "${req.type}"` }) }
                 }
             } else {
                 resolve({ result: 'error', message: 'Помилка аутентифікації' });
             }
         })
 
-    });
+    })
 };
 
 module.exports = db_interact;

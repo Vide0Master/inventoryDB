@@ -10,18 +10,18 @@ async function get_user_data() {
         permission_level: document.getElementById('adm_lvl'),
         secret_key: document.getElementById('secret_key')
     }
-    let usr_name = `${account.surname}`;
-    if (['', null].includes(account.name) && ['', null].includes(account.surname)) {
+    let usr_name=''
+    if (account.name && !account.surname) {
         usr_name += ` ${account.name}`
-    } else if (['', null].includes(account.name)) {
+    } else if (account.name) {
         usr_name += `${account.name}`
     }
-    if (['', null].includes(account.name) && ['', null].includes(account.surname)) {
+    if (!account.name && !account.surname) {
         usr_main_field.innerText = account.login
     } else {
         usr_main_field.innerText = `${usr_name} (${account.login})`
     }
-    if (['', null].includes(account.name) && ['', null].includes(account.surname)) {
+    if (!account.name && !account.surname) {
         user_card.name.innerText = 'Відсутнє'
     } else {
         user_card.name.innerText = usr_name

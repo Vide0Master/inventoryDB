@@ -1,6 +1,7 @@
 async function request(link, type, args) {
     try {
-        const usr = JSON.parse(sessionStorage.getItem('account'))
+        let usr = JSON.parse(sessionStorage.getItem('account'))
+        if (usr == null) usr = { login: 'def', key: 'def' }
         const response = await fetch(link, {
             method: 'POST',
             headers: {
@@ -13,7 +14,7 @@ async function request(link, type, args) {
             }),
         });
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            return 'nsr'
         }
         const data = await response.json();
         return data

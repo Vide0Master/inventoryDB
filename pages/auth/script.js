@@ -21,7 +21,7 @@ document.getElementById('authForm').addEventListener('submit', async function (e
             sessionStorage.setItem('account', JSON.stringify({ login: login, name: result.data.name, surname: result.data.surname, skey: result.data.PK, permission_level: result.data.permission_level}))
             window.location.href = result.data.LP;
         } else {
-            alert(data.message, 5000, 'error');
+            alert(result.message, 5000, 'error');
         }
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);

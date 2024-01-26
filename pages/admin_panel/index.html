@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель адміністратора</title>
+    <link rel="shortcut icon" href="cyan_logo.png" type="image/x-icon">
+    <script src="request.js" defer></script>
+    <script src="session_controller.js" defer></script>
+    <script src="alert.js" defer></script>
+    <script src="type_panel/type_editor.js" defer></script>
+    <script src="get_user_data.js" defer></script>
+    <script src="set_page_list.js" defer></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="nullify.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="alert.css">
+    <link rel="stylesheet" href="type_panel/type_editor.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="page_label close" id="page_label">
+            <div id="page_label_text"></div>
+            <div class="buttons" id="buttons"></div>
+        </div>
+        <div class="profile">
+            <div id="profile"></div>
+            <div class="butt_row">
+                <button type="button" id="profile_info">🛈 Інформація</button>
+                <button type="button" id="logout">⇐ Вийти</button>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="parameter_blocks">
+            <div class="type_editor" id="type_editor">
+                
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div>Розробка Олександра Ігнатова</div>
+        <div>Спеціальне видання для КНП ЦЕМД та МК ЖОР</div>
+        <div>Розповсюдження та несанкціоноване редагування заборонене</div>
+        <div>Для технічної пітримки звертатися у телеграмм: <a href="https://t.me/vide0master">@vide0master</a></div>
+    </div>
+    <div id="user_info">
+        <div class="user_card">
+            <button type="button" id="user_card_close">✕</button>
+            <div class="head">Ім'я:
+                <div class="act_text" id="name"></div>
+            </div>
+            <div class="head">Логін:
+                <div class="act_text" id="login"></div>
+            </div>
+            <div class="head">Рівень доступу:
+                <div class="act_text" id="adm_lvl"></div>
+            </div>
+            <div class="head">Секретний ключ:
+                <div class="act_text" id="secret_key"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

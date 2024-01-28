@@ -6,8 +6,7 @@ const user_data_template = {
     password: `Пароль`,
     surname: `Фамілія`,
     name: `Ім'я`,
-    permission_level: `Рівень доступу`,
-    last_page: `Остання сторінка`
+    permission_level: `Рівень доступу`
 }
 
 async function init_user_manager() {
@@ -26,6 +25,8 @@ async function init_user_manager() {
     table_block.className = 'table_block'
     block_body.appendChild(table_block)
     render_table(table_block)
+
+    
 }
 
 async function render_table(table_block) {

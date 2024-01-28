@@ -10,11 +10,15 @@ const page_list = (req) => {
                 console.log(err)
                 resolve({ result: 'error', message: err });
             } else {
-                let pages_for_user = []
-                pages.forEach((page) => {
-                    if (page.AL <= rows.permission_level) pages_for_user.push(page)
-                })
-                resolve({ result: 'success', data: pages_for_user });
+                try {
+                    let pages_for_user = []
+                    pages.forEach((page) => {
+                        if (page.AL <= rows.permission_level) pages_for_user.push(page)
+                    })
+                    resolve({ result: 'success', data: pages_for_user });
+                }catch(err){
+                    resolve({ result: 'error', message: err });
+                }
             }
         })
     });

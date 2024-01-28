@@ -180,7 +180,7 @@ const db_interact = (req) => {
                     case 'reboot_n_update': {
                         if (req.arguments.rq_type == 'shutdown') {
                             if (req.arguments.pass == user_acc.password) {
-                                resolve({ result: "warn", message: `Команда перезавантаження отримана`})
+                                resolve({ result: "warn", message: `Команда перезавантаження отримана` })
                                 setTimeout(() => {
                                     process.exit()
                                 }, 10);
@@ -190,7 +190,21 @@ const db_interact = (req) => {
                         } else {
                             resolve({ result: "succ", message: 'Перезавантаження завершене!' })
                         }
-                    }
+                    }; break;
+                    case 'get_all_users': {
+                        if (user_acc.permission_level == 3) {
+                            db.all(`SELECT * FROM "users"`, (err, rows) => {
+                                if (err) {
+                                    console.log(err)
+                                    resolve({ result: 'error', message: 'Помилка запиту бази данних!' })
+                                } else {
+                                    resolve({ result: 'succ', data: rows })
+                                }
+                            })
+                        } else {
+                            resolve({ result: 'error', message: 'Недостатній рівень!' })
+                        }
+                    }; break;
                     default: { resolve({ result: "error", message: `Невдала обробка запиту "${req.type}"` }) }
                 }
             } else {

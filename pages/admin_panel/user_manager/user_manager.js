@@ -61,16 +61,13 @@ async function render_table(table_block) {
                             { user: user.login, ftype: [key], value: fval }
                         )
                         alert(result.message, 5000, result.result)
-                        if (result.result == 'succ') {
+                        console.log(result)
+                        if (result.result === 'succ') {
                             td.innerText = fval
                         } else {
                             td.innerText = user[key]
                         }
                     }
-                })
-                field.addEventListener('blur', () => {
-                    field.remove()
-                    td.innerText = user[key]
                 })
             })
         }

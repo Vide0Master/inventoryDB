@@ -37,6 +37,10 @@ async function get_server_state(total_time) {
     const rslt = await request('/api/db_interact', 'reboot_n_update', "")
     if (rslt != 'nsr') {
         alert(rslt.message, 5000, rslt.result)
+        alert('Ви будете перенаправлені на сторінку інформації через 5 секунд', 5000, 'warn')
+        setTimeout(() => {
+            window.location.href = '/main';
+        }, 5000);
     } else {
         setTimeout(() => {
             get_server_state(total_time + 1)

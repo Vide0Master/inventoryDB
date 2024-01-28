@@ -205,6 +205,17 @@ const db_interact = (req) => {
                             resolve({ result: 'error', message: 'Недостатній рівень!' })
                         }
                     }; break;
+                    case 'update_user_parameter': {
+                        if (user_acc.permission_level >= 3) {
+                            db.run(`UPDATE users SET "${req.arguments.ftype}" = "${req.arguments.value}" WHERE login = "${req.arguments.user}"`,(err)=>{
+                                if(err){
+                                    resolve({ result: 'error', message: `Помилка зміни значення!` });
+                                }else{
+                                    resolve({ result: 'succ', message: `Значення ${req.arguments.ftype} успішно змінене для користувача ${req.arguments.user}` });
+                                }
+                            })
+                        }
+                    }; break;
                     default: { resolve({ result: "error", message: `Невдала обробка запиту "${req.type}"` }) }
                 }
             } else {

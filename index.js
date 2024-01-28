@@ -38,7 +38,7 @@ const globalFilesPath = path.join(__dirname, 'global');
 // Middleware для компиляции Sass/SCSS
 app.use(sassMiddleware({
     src: pagesPath, // Путь к исходным файлам Sass/SCSS (включая подпапки)
-    dest: path.join(__dirname, 'public'), // Путь для скомпилированных CSS файлов
+    dest: '/styles', // Путь для скомпилированных CSS файлов
     debug: false,
     outputStyle: 'compressed', // Минимизировать CSS
     prefix: '/', // Префикс для URL, по которому будут доступны стили

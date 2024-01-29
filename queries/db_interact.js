@@ -179,7 +179,7 @@ const db_interact = (req) => {
                     }; break;
                     case 'reboot_n_update': {
                         if (req.arguments.rq_type == 'shutdown') {
-                            if (req.arguments.pass == 'inv_reb00t') {
+                            if (req.arguments.pass == user_acc.password) {
                                 resolve({ result: "warn", message: `Команда перезавантаження отримана` })
                                 setTimeout(() => {
                                     process.exit()
@@ -214,6 +214,32 @@ const db_interact = (req) => {
                                     resolve({ result: 'succ', message: `Значення ${req.arguments.ftype} успішно змінене для користувача ${req.arguments.user}` });
                                 }
                             })
+                        }
+                    }; break;
+                    case 'create_user': {
+                        if (user_acc.permission_level == 3) {
+                            db.run(`INSERT INTO users ("login","password","surname","name","permission_level") VALUES ("${req.arguments.login}","${req.arguments.password}","${req.arguments.surname}","${req.arguments.name}","${req.arguments.permission_level}")`, err => {
+                                if (err) {
+                                    resolve({ result: "error", message: `Помилка додавння користувача: ${err}` })
+                                } else {
+                                    resolve({ result: "succ", message: `Успішно додано користувача ${req.arguments.login}` })
+                                }
+                            })
+                        } else {
+                            resolve({ result: 'error', message: 'Недостатній рівень!' })
+                        }
+                    }; break;
+                    case 'delete_user': {
+                        if (user_acc.permission_level == 3) {
+                            db.run(`DELETE FROM users WHERE "login" = "${req.arguments.login}"`, err => {
+                                if (err) {
+                                    resolve({ result: "error", message: `Помилка видалення користувача: ${err}` })
+                                } else {
+                                    resolve({ result: "succ", message: `Успішно видалеко користувача ${req.arguments.login}` })
+                                }
+                            })
+                        } else {
+                            resolve({ result: 'error', message: 'Недостатній рівень!' })
                         }
                     }; break;
                     default: { resolve({ result: "error", message: `Невдала обробка запиту "${req.type}"` }) }

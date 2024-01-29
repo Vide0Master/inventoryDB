@@ -12,14 +12,19 @@ async function init_reboot_panel() {
     label.className = 'reboot_label'
     block_body.appendChild(label)
 
+    const pass_field = document.createElement('input')
+    pass_field.type = 'password'
+    pass_field.placeholder = 'Введіть пароль доступу'
+    block_body.appendChild(pass_field)
+
     const button = document.createElement('button')
     button.type = 'button'
     button.className = 'reboot_button'
     button.innerText = 'Перезавантажити'
     button.addEventListener('click', async () => {
-        if (confirm('Ви точно хочете почати перезавантаження?')) {
-            const pass = prompt("Введіть пароль перезавантаження:")
-            if (pass) {
+        const pass = pass_field.value
+        if (pass) {
+            if (confirm('Ви точно хочете почати перезавантаження?')) {
                 const rslt = await request('/api/db_interact', 'reboot_n_update', { rq_type: 'shutdown', pass: pass })
                 alert(rslt.message, 4000, rslt.result)
                 if (rslt.result == 'warn') {
@@ -28,6 +33,8 @@ async function init_reboot_panel() {
                     }, 10)
                 }
             }
+        } else {
+            alert('Введіть пароль', 4000, 'warn')
         }
     })
     block_body.appendChild(button)

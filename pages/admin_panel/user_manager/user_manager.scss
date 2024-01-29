@@ -9,14 +9,31 @@
     gap: 1em;
     height: min-content;
     transition: all 0.2s ease;
+
     .label {
         font-size: 30px;
     }
-    .table_block table tr td{
-        border: 1px solid black;
-        padding: 0.4em;
-        input[type="text"]{
-            width: 8em;
+
+    .table_block table {
+        tr td {
+            border: 1px solid black;
+            padding: 0.4em;
+
+            input[type="text"] {
+                width: 8em;
+            }
+        }
+
+        tr:nth-child(odd) {
+            background-color: rgba(0, 200, 0, 0.2);
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(0, 200, 0, 0.3);
+        }
+
+        tr:first-child {
+            background-color: rgba(0, 125, 0, 0.5);
         }
     }
 }

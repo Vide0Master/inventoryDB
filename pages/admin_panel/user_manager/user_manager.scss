@@ -45,11 +45,10 @@
 
         tr {
             td {
-                user-select: none;
                 border: 1px solid black;
                 padding: 0.4em;
 
-                input[type="text"] {
+                input{
                     width: 8em;
                 }
             }

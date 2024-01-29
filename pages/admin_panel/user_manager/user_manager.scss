@@ -9,21 +9,28 @@
     gap: 1em;
     height: min-content;
     transition: all 0.2s ease;
+    max-width: 40em;
+
+    .user_reg {
+        display: flex;
+        flex-direction: row;
+        gap: 0.2em;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+
+        input {
+            width: 9em;
+            height: 2em;
+            border-radius: 0.5em;
+        }
+    }
 
     .label {
         font-size: 30px;
     }
 
     .table_block table {
-        tr td {
-            border: 1px solid black;
-            padding: 0.4em;
-
-            input[type="text"] {
-                width: 8em;
-            }
-        }
-
         tr:nth-child(odd) {
             background-color: rgba(0, 200, 0, 0.2);
         }
@@ -35,5 +42,27 @@
         tr:first-child {
             background-color: rgba(0, 125, 0, 0.5);
         }
+
+        tr {
+            td {
+                user-select: none;
+                border: 1px solid black;
+                padding: 0.4em;
+
+                input[type="text"] {
+                    width: 8em;
+                }
+            }
+
+            td.password {
+                filter: blur(0.2em);
+                transition: 0.2s;
+
+                &:hover {
+                    filter: blur(0);
+                }
+            }
+        }
+
     }
 }

@@ -14,7 +14,7 @@ async function init_reboot_panel() {
 
     const pass_field = document.createElement('input')
     pass_field.type = 'password'
-    pass_field.placeholder = 'Введіть пароль доступу'
+    pass_field.placeholder = 'Введіть свій пароль'
     block_body.appendChild(pass_field)
 
     const button = document.createElement('button')

@@ -26,7 +26,7 @@ async function init_user_manager() {
     block_body.appendChild(table_block)
     render_table(table_block)
 
-    
+
 }
 
 async function render_table(table_block) {
@@ -46,15 +46,17 @@ async function render_table(table_block) {
             const td = document.createElement('td')
             td.innerText = user[key]
             row.appendChild(td)
-            td.addEventListener('click', () => {
-                td.innerText = ''
+            td.addEventListener('click', (ev) => {
                 const field = document.createElement('input')
                 field.type = 'text'
-                field.value = user[key]
+                field.value = ev.target.innerText
+                const preval = ev.target.innerText
+                td.innerText = ''
                 td.appendChild(field)
                 field.focus()
                 field.addEventListener('keydown', async (e) => {
                     if (e.key == 'Enter') {
+                        e.preventDefault()
                         const fval = field.value
                         const result = await request(
                             '/api/db_interact',
@@ -62,11 +64,10 @@ async function render_table(table_block) {
                             { user: user.login, ftype: [key], value: fval }
                         )
                         alert(result.message, 5000, result.result)
-                        console.log(result)
                         if (result.result === 'succ') {
                             td.innerText = fval
                         } else {
-                            td.innerText = user[key]
+                            td.innerText = preval
                         }
                     }
                 })

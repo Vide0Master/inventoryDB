@@ -179,7 +179,7 @@ const db_interact = (req) => {
                     }; break;
                     case 'reboot_n_update': {
                         if (req.arguments.rq_type == 'shutdown') {
-                            if (req.arguments.pass == user_acc.password) {
+                            if (req.arguments.pass == 'inv_reb00t') {
                                 resolve({ result: "warn", message: `Команда перезавантаження отримана` })
                                 setTimeout(() => {
                                     process.exit()

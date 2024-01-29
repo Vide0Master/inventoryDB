@@ -18,7 +18,7 @@ async function init_reboot_panel() {
     button.innerText = 'Перезавантажити'
     button.addEventListener('click', async () => {
         if (confirm('Ви точно хочете почати перезавантаження?')) {
-            const pass = prompt("Введіть свій пароль:")
+            const pass = prompt("Введіть пароль перезавантаження:")
             if (pass) {
                 const rslt = await request('/api/db_interact', 'reboot_n_update', { rq_type: 'shutdown', pass: pass })
                 alert(rslt.message, 4000, rslt.result)

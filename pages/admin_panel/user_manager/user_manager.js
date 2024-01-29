@@ -84,6 +84,8 @@ async function render_table(table_block) {
             } else {
                 td.innerText = user[key]
                 if (key == 'password') td.className = 'password'
+
+                let is_processed = false
                 td.addEventListener('click', (ev) => {
                     const field = document.createElement('input')
                     field.type = 'text'
@@ -93,9 +95,8 @@ async function render_table(table_block) {
                     td.appendChild(field)
                     field.focus()
                     field.addEventListener('keydown', async (e) => {
-                        e.preventDefault()
+                        is_processed=true
                         if (e.key == 'Enter') {
-                            e.preventDefault()
                             const fval = field.value
                             const result = await request(
                                 '/api/db_interact',
@@ -109,6 +110,9 @@ async function render_table(table_block) {
                                 td.innerText = preval
                             }
                         }
+                    })
+                    field.addEventListener('focusout', (e) => {
+                        if (!is_processed) td.innerText = preval
                     })
                 })
             }

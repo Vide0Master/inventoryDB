@@ -252,7 +252,13 @@ button:disabled {
             gap: 0.3em;
 
             div {
+                border: 2px solid transparent;
                 border-bottom: 2px solid #006CE6;
+                transition: 0.1s;
+                padding: 0.2em;
+                &:hover{
+                    border: 2px solid #006CE6
+                }
             }
         }
     }

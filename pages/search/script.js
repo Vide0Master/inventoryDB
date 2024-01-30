@@ -50,7 +50,9 @@ document.getElementById('submit_inv_rqst').addEventListener('click', async (e) =
                     select.appendChild(placeholder)
                     const actions = {
                         print_view: 'Переглянути у "PFM"',
+                        info_view: 'Переглянути додаткову інформацію',
                         rqst_edit: 'Редагувати предмет',
+                        rqst_edit_additional_info: "Редагувати додаткову інформацію",
                         rqst_move: 'Перемістити предмет',
                         rqst_delist: 'Списати предмет'
                     }
@@ -63,11 +65,18 @@ document.getElementById('submit_inv_rqst').addEventListener('click', async (e) =
                     box.addEventListener('change', () => {
                         switch (select.value) {
                             case 'print_view': {
-                                window.open(`/view?id=${item.inv_number}`, '_blank', 'width=600,height=800')
+                                window.open(`/view?id=${item.inv_number}&type=view_id`, '_blank', 'width=600,height=800')
+                                select.selectedIndex = 0
+                            }; break;
+                            case 'info_view': {
+                                window.open(`/view?id=${item.inv_number}&type=view_details`, '_blank', 'width=600,height=800')
                                 select.selectedIndex = 0
                             }; break;
                             case 'rqst_edit': {
                                 window.location.href = `/edit?id=${item.inv_number}&type=rqst_edit`
+                            }; break;
+                            case 'rqst_edit_additional_info': {
+                                window.location.href = `/edit?id=${item.inv_number}&type=rqst_edit_additional_info`
                             }; break;
                             case 'rqst_move': {
                                 window.location.href = `/edit?id=${item.inv_number}&type=rqst_move`

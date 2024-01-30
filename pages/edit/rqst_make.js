@@ -1,4 +1,5 @@
 async function rqst_make(item, rslts, id) {
+    let raw_table = {}
     const table = document.createElement('table')
     if (!item || item.size == 0 || item.result == 'error') {
         for (const key in data_elements) {

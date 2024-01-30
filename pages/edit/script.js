@@ -13,10 +13,9 @@ const data_elements = {
 
 async function draw_table(id, rqst) {
     if (id == '') {
-        alert("Інвентарний номер не введено",3000,'warn')
+        alert("Інвентарний номер не введено", 3000, 'warn')
         return
     }
-    let raw_table = {}
     const rslts = document.getElementById('results')
     rslts.innerHTML = ''
     document.getElementById('rqst_bar').value = id
@@ -31,8 +30,11 @@ async function draw_table(id, rqst) {
         case 'rqst_move': {
             await rqst_move(item, rslts, id)
         }; break;
+        case 'rqst_edit_additional_info': {
+            await rqst_edit_additional_info(item, rslts, id)
+        }; break;
         case 'rqst_delist': {
-
+            await rqst_delist(item, rslts, id)
         }; break;
     }
 }
@@ -49,6 +51,10 @@ document.getElementById('rqst_make').addEventListener('click', () => {
 
 document.getElementById('rqst_edit').addEventListener('click', () => {
     draw_table(document.getElementById('rqst_bar').value, 'rqst_edit')
+})
+
+document.getElementById('rqst_edit_additional_info').addEventListener('click', () => {
+    draw_table(document.getElementById('rqst_bar').value, 'rqst_edit_additional_info')
 })
 
 document.getElementById('rqst_move').addEventListener('click', () => {

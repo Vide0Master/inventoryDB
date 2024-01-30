@@ -1,4 +1,5 @@
 async function rqst_edit(item, rslts, id) {
+    let raw_table = {}
     if (item.data.size == 0 || item.result == 'error') {
         if (confirm(`Предмет ${id} не існує, створити його?`)) {
             window.location.href = `/edit?id=${id}&type=rqst_make`

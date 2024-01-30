@@ -1,4 +1,5 @@
 async function rqst_move(item, rslts, id) {
+    let raw_table = {}
     if (!item || item.size == 0 || item.result == 'empty') {
         if (confirm(`Предмет ${id} не існує, створити його?`)) {
             window.location.href = `/edit?id=${id}&type=rqst_make`

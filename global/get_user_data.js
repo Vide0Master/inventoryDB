@@ -1,7 +1,7 @@
 get_user_data()
 
 async function get_user_data() {
-    const acc_level = ['Глядач', 'Молодший оператор', 'Старший оператор', 'Супер адміністратор']
+    const acc_level = ['Оператор', 'Адміністратор']
     const account = JSON.parse(sessionStorage.getItem('account'))
     const usr_main_field = document.getElementById('profile')
     const user_card = {

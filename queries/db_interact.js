@@ -24,8 +24,6 @@ const data_elements = {
     user: 'Користувач'
 }
 
-let reboot = false;
-
 const db_interact = (req) => {
     return new Promise((resolve) => {
         db.all('SELECT * FROM users WHERE login = ? AND private_key = ?', [req.user.login, req.user.key], (err, rows) => {
@@ -192,7 +190,7 @@ const db_interact = (req) => {
                         }
                     }; break;
                     case 'get_all_users': {
-                        if (user_acc.permission_level == 3) {
+                        if (user_acc.permission_level > 0) {
                             db.all(`SELECT * FROM "users"`, (err, rows) => {
                                 if (err) {
                                     console.log(err)
@@ -206,7 +204,7 @@ const db_interact = (req) => {
                         }
                     }; break;
                     case 'update_user_parameter': {
-                        if (user_acc.permission_level >= 3) {
+                        if (user_acc.permission_level > 0) {
                             db.run(`UPDATE users SET "${req.arguments.ftype}" = "${req.arguments.value}" WHERE login = "${req.arguments.user}"`, (err) => {
                                 if (err) {
                                     resolve({ result: 'error', message: `Помилка зміни значення!` });
@@ -217,7 +215,7 @@ const db_interact = (req) => {
                         }
                     }; break;
                     case 'create_user': {
-                        if (user_acc.permission_level == 3) {
+                        if (user_acc.permission_level > 0) {
                             db.run(`INSERT INTO users ("login","password","surname","name","permission_level") VALUES ("${req.arguments.login}","${req.arguments.password}","${req.arguments.surname}","${req.arguments.name}","${req.arguments.permission_level}")`, err => {
                                 if (err) {
                                     resolve({ result: "error", message: `Помилка додавння користувача: ${err}` })
@@ -230,7 +228,7 @@ const db_interact = (req) => {
                         }
                     }; break;
                     case 'delete_user': {
-                        if (user_acc.permission_level == 3) {
+                        if (user_acc.permission_level > 0) {
                             db.run(`DELETE FROM users WHERE "login" = "${req.arguments.login}"`, err => {
                                 if (err) {
                                     resolve({ result: "error", message: `Помилка видалення користувача: ${err}` })

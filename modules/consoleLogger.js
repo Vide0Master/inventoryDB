@@ -55,5 +55,5 @@ module.exports = function (line, type) {
         }; break;
     }
     console.log(text);
-    //flog.writeFile(`[${NDT}] [${type}] [${line}]`)
+    flog.writeFile(`[${NDT}] [${type}] [${line}]`)
 };

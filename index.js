@@ -4,7 +4,6 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-
 const fs = require('fs')
 const clog = require('./modules/consoleLogger')
 const flog = require('./modules/fileLogger')
@@ -42,14 +41,13 @@ app.use(sassMiddleware({
     debug: false,
     outputStyle: 'compressed', // Минимизировать CSS
     prefix: '/', // Префикс для URL, по которому будут доступны стили
-    response: true, // Добавьте эту опцию
-    force: true, // Добавьте эту опцию
+    response: true,
+    force: true,
 }));
 
 // Создаем символические ссылки для глобальных файлов внутри папок с страницами
 fs.readdirSync(pagesPath).forEach(page => {
     const pagePath = path.join(pagesPath, page);
-
     // Обработка статических файлов
     app.use(`/${page}`, express.static(pagePath));
     app.use(`/${page}`, express.static(globalFilesPath));
@@ -62,8 +60,7 @@ fs.readdirSync(pagesPath).forEach(page => {
 
 // Запуск сервера
 app.listen(port, () => {
-    flog.createFile()
-    clog(flog.get_log_info(), 'i')
+    clog(flog.createFile(), 'i')
     clog(`Сервер доступний по порту:${port}`, 's')
     clog(`Розмір бази данних складає: ${fsf(fs.statSync('./inventory.db').size)}`, 'i')
 });

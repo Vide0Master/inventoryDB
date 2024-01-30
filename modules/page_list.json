@@ -1,8 +1,8 @@
 [
     { "name": "Інформація та інструкції", "link": "main", "AL": 0 },
     { "name": "Пошук", "link": "search", "AL": 0 },
-    { "name": "Дії з інвентарем", "link": "edit", "AL": 1 },
-    { "name": "Повний список інвентарю", "link": "item_global_list", "AL": 1 },
-    { "name": "Повний список переміщень", "link": "relocations", "AL": 1 },
-    { "name": "Панель адміністратора", "link": "admin_panel", "AL": 3 }
+    { "name": "Дії з інвентарем", "link": "edit", "AL": 0 },
+    { "name": "Повний список інвентарю", "link": "item_global_list", "AL": 0 },
+    { "name": "Повний список переміщень", "link": "relocations", "AL": 0 },
+    { "name": "Панель адміністратора", "link": "admin_panel", "AL": 1 }
 ]

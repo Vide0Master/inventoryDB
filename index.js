@@ -57,6 +57,7 @@ fs.readdirSync(pagesPath).forEach(page => {
         res.sendFile(indexPath);
     });
 });
+
 // Запуск сервера
 app.listen(port, () => {
     clog(flog.createFile(), 'i')

@@ -35,8 +35,8 @@ class fileLogger {
         } else {
             return `Файловий лог консолі не буде записаний у файл, змініть параметр "log_to_file" у файлі "fileLogger.js" у папці "modules"`
         }
-    }
-    static writeFile(data) {
+    } 
+    static writeFile(data) { 
         if (log_to_file) fs.appendFileSync(`./logs/${file}`, `${data}\n`)
     }
 };

@@ -1,7 +1,8 @@
 fetch_updates()
 
 async function fetch_updates() {
-    const upd_field = document.getElementById('updates')
+    const upd_field = document.createElement('div')
+    document.querySelector('.content').appendChild(upd_field)
     const updates = await request('/api/upd_info','all_updates','')
     updates.data.forEach(upd => {
         const upd_block = document.createElement('div')

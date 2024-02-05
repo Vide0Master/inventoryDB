@@ -1,14 +1,27 @@
-.footer{
+.footer {
+    position: sticky;
+    bottom: 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: space-around;
-    font-size: 0.8em;
+    font-size: 1em;
     padding: 0.3em;
-    div{
+    background-color: #494949;
+    gap: 0.5em;
+
+    div {
         color: white;
-        a{
-            color: white;
+        position: relative;
+
+        &:not(:last-child):after {
+            content: "";
+            position: absolute;
+            width: 0.1em;
+            height: 90%;
+            background-color: #ffffff;
+            right: -0.25em;
+            top: 5%;
+            transform: translateX(50%);
         }
     }
 }

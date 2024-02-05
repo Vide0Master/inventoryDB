@@ -1,10 +1,12 @@
+
 set_pages_list()
 
 async function set_pages_list() {
-    const pages = await request('/api/page_list', "", "")
     const header = document.querySelector('.header')
     const button_block = document.createElement('div')
+    header.append(button_block)
     button_block.className = 'page_list'
+    const pages = await request('/api/page_list', "", "")
     pages.data.forEach((v) => {
         const button = document.createElement('button')
         button.type = 'button'
@@ -17,10 +19,8 @@ async function set_pages_list() {
         }
         button_block.appendChild(button)
     })
-    header.append(button_block)
 }
 
 head_require([
-    { type: 'style', link: 'parts/page_list/page_list.css' },
-    { type: 'script', link: 'parts/user_card/user_card.js' }
+    { type: 'style', link: 'parts/page_list/page_list.css' }
 ]);

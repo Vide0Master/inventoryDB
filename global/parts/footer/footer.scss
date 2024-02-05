@@ -1,0 +1,14 @@
+.footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 0.8em;
+    padding: 0.3em;
+    div{
+        color: white;
+        a{
+            color: white;
+        }
+    }
+}

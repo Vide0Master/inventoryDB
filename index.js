@@ -30,20 +30,8 @@ app.get('/', (req, res) => {
     res.redirect('/auth')
 })
 
-// Настроим middleware для обработки статических файлов из папки 'auth'
 const pagesPath = path.join(__dirname, 'pages');
 const globalFilesPath = path.join(__dirname, 'global');
-
-// Middleware для компиляции Sass/SCSS
-app.use(sassMiddleware({
-    src: pagesPath, // Путь к исходным файлам Sass/SCSS (включая подпапки)
-    dest: '/styles', // Путь для скомпилированных CSS файлов
-    debug: false,
-    outputStyle: 'compressed', // Минимизировать CSS
-    prefix: '/', // Префикс для URL, по которому будут доступны стили
-    response: true,
-    force: true,
-}));
 
 // Создаем символические ссылки для глобальных файлов внутри папок с страницами
 fs.readdirSync(pagesPath).forEach(page => {
@@ -51,6 +39,22 @@ fs.readdirSync(pagesPath).forEach(page => {
     // Обработка статических файлов
     app.use(`/${page}`, express.static(pagePath));
     app.use(`/${page}`, express.static(globalFilesPath));
+    app.use(`/${page}`, sassMiddleware({
+        src: pagePath, 
+        debug: false,
+        outputStyle: 'compressed', 
+        prefix: '/', 
+        response: true,
+        force: true,
+    }));
+    app.use(`/${page}`, sassMiddleware({
+        src: globalFilesPath, 
+        debug: false,
+        outputStyle: 'compressed', 
+        prefix: '/',
+        response: true,
+        force: true,
+    }));
     // Обработка запроса на страницу
     app.get(`/${page}`, async (req, res) => {
         const indexPath = path.join(pagePath, 'index.html');

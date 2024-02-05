@@ -17,39 +17,39 @@
     border: 1px solid #ccc;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-}
+    
+    &.error {
+        background-color: #FFCDD2;
+        border-color: #E57373;
+    }
 
-.notification.error {
-    background-color: #FFCDD2;
-    border-color: #E57373;
-}
+    &.warn {
+        background-color: #FFF9C4;
+        border-color: #FFD54F;
+    }
 
-.notification.warn {
-    background-color: #FFF9C4;
-    border-color: #FFD54F;
-}
+    &.succ {
+        background-color: #C8E6C9;
+        border-color: #81C784;
+    }
 
-.notification.succ {
-    background-color: #C8E6C9;
-    border-color: #81C784;
-}
+    span {
+        flex-grow: 1;
+        overflow-wrap: break-word;
+        font-family: Arial, Helvetica, sans-serif;
+    }
 
-.notification span {
-    flex-grow: 1;
-    overflow-wrap: break-word;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.notification button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    font-weight: bold;
-    color: #555;
-    padding: 1px;
-    margin-left: 8px;
-    transition: 0.2s;
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: bold;
+        color: #555;
+        padding: 1px;
+        margin-left: 8px;
+        transition: 0.2s;
+    }
 }
 
 @keyframes slideIn {

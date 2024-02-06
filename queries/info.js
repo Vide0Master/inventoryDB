@@ -1,5 +1,6 @@
 
 const updates = require('../modules/update_info.json')
+const instructions = require('../modules/instructions.json')
 
 const upd_info = (req) => {
     return new Promise((resolve) => {
@@ -13,7 +14,14 @@ const upd_info = (req) => {
             }; break;
             case 'latest_ver': {
                 try {
-                    resolve({ result: 'success', data: updates[updates.length - 1] });
+                    resolve({ result: 'success', data: updates[0] });
+                } catch (err) {
+                    resolve({ result: 'error', message: err });
+                }
+            }; break;
+            case 'instruction': {
+                try {
+                    resolve({ result: 'success', data: instructions });
                 } catch (err) {
                     resolve({ result: 'error', message: err });
                 }

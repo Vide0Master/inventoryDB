@@ -20,5 +20,6 @@ async function request(link, type, args) {
         return data
     } catch (error) {
         console.error('Сталась помилка обробки запиту:', error);
+        return 'nsr'
     }
 }

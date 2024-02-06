@@ -1,0 +1,41 @@
+.page_list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    flex-wrap: wrap;
+
+    button {
+        border-radius: 0.3em;
+        font-size: 1em;
+        background-color: #fff;
+        color: #000;
+        padding: 0.3em 1em;
+        transition: 0.3s;
+        border: 0.15em solid black;
+        &:hover {
+            border-color: #06f;
+            color: #06f;
+            fill: #06f;
+            box-shadow: 0.3em 0.3em 0.5em 0.1em rgba(0, 0, 0, 0.5);
+        }
+
+        &:active {
+            border-color: #06f;
+            color: #06f;
+            fill: #06f;
+            box-shadow: none;
+        }
+
+        &:disabled {
+            pointer-events: none;
+            border: 0.15em solid #11ff00;
+        }
+
+        @media screen and (max-width: 600px) {
+            font-size: 0.8em;
+            padding: 0.2em 0.8em;
+        }
+    }
+}

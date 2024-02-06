@@ -19,7 +19,7 @@ fs.readdirSync(queriesPath).forEach(file => {
     const filePath = path.join(queriesPath, file);
     const queryModule = require("./" + filePath);
     // Добавляем функции из модуля в обработку запросов
-    app.post(`/api/${queryModule.name}`, async (req, res) => {
+    app.post(`/api/${path.parse(file).name}`, async (req, res) => {
         const arguments = req.body;
         const result = await queryModule(arguments);
         res.json(result);

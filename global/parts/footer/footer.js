@@ -11,7 +11,7 @@ async function process_footer() {
         footer.appendChild(ln)
     })
 
-    const lver = await request('/api/upd_info', 'latest_ver', '')
+    const lver = await request('/api/info', 'latest_ver', '')
     dblocks.version.innerText = lver.data.v
     dblocks.organization.innerText = `Інвентар ЦЕМД та МК ЖОР`
     const load_time = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart

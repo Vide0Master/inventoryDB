@@ -1,0 +1,39 @@
+.info_zone {
+    border: 0.1em solid black;
+    border-radius: 1em;
+    padding: 1em;
+
+    .paragraph {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1em;
+        border-left: 0.2em solid #006CE6;
+        padding-left: 0.5em;
+
+        .paragraph_name {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .paragraph_subs {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1em;
+
+            .sub_paragraph {
+
+                border-left: 0.15em solid #006CE6;
+                padding-left: 0.25em;
+
+                .sub_paragraph_name {
+                    font-size: 1.5em;
+                    font-weight: bold;
+                }
+
+                .sub_paragraph_text {}
+            }
+        }
+    }
+}

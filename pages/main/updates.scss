@@ -1,24 +1,21 @@
 .updates {
-    border: 2px solid black;
+    border: 0.1em solid black;
     border-radius: 1em;
-    margin: 0.5em;
     padding: 1em;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
     gap: 1em;
 
     .upd_block {
-        max-width: 20em;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.4em;
-        border: 2px solid black;
-        padding: 0.5em;
-        overflow: hidden;
+        gap: 1em;
+        border-left: 0.2em solid #006CE6;
+        padding-left: 0.5em;
 
         .upd_ver {
             font-size: 2em;

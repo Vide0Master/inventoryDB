@@ -1,8 +1,7 @@
 const base_requirements = [
-    { type: 'script', link: 'request.js' },
+    { type: 'script', link: 'parts/page_structure.js' },
     { type: 'script', link: 'session_controller.js' },
     { type: 'style', link: 'nullify.css' },
-    { type: 'script', link: 'parts/page_structure.js' },
     { type: 'script', link: 'script.js' }
 ];
 

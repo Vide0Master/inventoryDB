@@ -1,4 +1,6 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const multer = require('multer');
 const path = require('path');
 
 const app = express();
@@ -10,14 +12,31 @@ const flog = require('./modules/fileLogger')
 const fsf = require('./modules/fileSizeFormat')
 const sassMiddleware = require('node-sass-middleware');
 
-// Middleware для обработки JSON в запросах
-app.use(express.json());
+app.get('/', (req, res) => {
+    res.redirect('/auth')
+})
 
-// Подгрузка всех файлов в папке queries
-const queriesPath = "./queries"
+app.use(express.json());
+app.use(bodyParser.json());
+
+const upload = multer({ charset: 'utf-8' });
+const fileQueriesPath = "./file_queries";
+fs.readdirSync(fileQueriesPath).forEach(file => {
+    const filePath = path.join(fileQueriesPath, file);
+    const queryModule = require('./' + filePath);
+    // Добавляем функции из модуля в обработку запросов
+    app.post(`/file/${path.parse(file).name}`, upload.array('files'), async (req, res) => {
+        const files = req.files;
+        const arguments = req.body;
+        const result = await queryModule({ arguments, files });
+        res.json(result);
+    });
+});
+
+const queriesPath = "./queries";
 fs.readdirSync(queriesPath).forEach(file => {
     const filePath = path.join(queriesPath, file);
-    const queryModule = require("./" + filePath);
+    const queryModule = require('./' + filePath);
     // Добавляем функции из модуля в обработку запросов
     app.post(`/api/${path.parse(file).name}`, async (req, res) => {
         const arguments = req.body;
@@ -26,13 +45,8 @@ fs.readdirSync(queriesPath).forEach(file => {
     });
 });
 
-app.get('/', (req, res) => {
-    res.redirect('/auth')
-})
-
 const pagesPath = path.join(__dirname, 'pages');
 const globalFilesPath = path.join(__dirname, 'global');
-
 // Создаем символические ссылки для глобальных файлов внутри папок с страницами
 fs.readdirSync(pagesPath).forEach(page => {
     const pagePath = path.join(pagesPath, page);
@@ -40,17 +54,17 @@ fs.readdirSync(pagesPath).forEach(page => {
     app.use(`/${page}`, express.static(pagePath));
     app.use(`/${page}`, express.static(globalFilesPath));
     app.use(`/${page}`, sassMiddleware({
-        src: pagePath, 
+        src: pagePath,
         debug: false,
-        outputStyle: 'compressed', 
-        prefix: '/', 
+        outputStyle: 'compressed',
+        prefix: '/',
         response: true,
         force: true,
     }));
     app.use(`/${page}`, sassMiddleware({
-        src: globalFilesPath, 
+        src: globalFilesPath,
         debug: false,
-        outputStyle: 'compressed', 
+        outputStyle: 'compressed',
         prefix: '/',
         response: true,
         force: true,

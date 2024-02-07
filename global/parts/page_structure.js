@@ -13,6 +13,8 @@ structure.forEach(part => {
 })
 
 head_require([
+    { type: 'script', link: 'request.js' },
+    { type: 'script', link: 'sendFile.js' },
     { type: 'script', link: 'parts/page_list/page_list.js' },
     { type: 'style', link: 'parts/page_structure.css' },
     { type: 'script', link: 'parts/footer/footer.js' },

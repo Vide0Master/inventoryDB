@@ -26,10 +26,11 @@ fs.readdirSync(fileQueriesPath).forEach(file => {
     const queryModule = require('./' + filePath);
     // Добавляем функции из модуля в обработку запросов
     app.post(`/file/${path.parse(file).name}`, upload.array('files'), async (req, res) => {
-        const files = req.files;
-        const arguments = req.body;
-        const result = await queryModule({ arguments, files });
-        res.json(result);
+        try {
+            const result = await queryModule(req, res);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     });
 });
 

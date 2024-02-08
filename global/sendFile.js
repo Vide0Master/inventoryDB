@@ -1,4 +1,4 @@
-function uploadFile(link, fileInput, args) {
+function uploadFile(fileInput, args) {
     var files = fileInput.files;
     if (files.length === 0) {
         alert('Файл(и) для загрузки не выбрані!', 5000, 'error')
@@ -19,12 +19,12 @@ function uploadFile(link, fileInput, args) {
 
     for (var key in additionalData) {
         if (additionalData.hasOwnProperty(key)) {
-            formData.append(key, additionalData[key]);
+            formData.append(key, JSON.stringify(additionalData[key]));
         }
     }
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', link, true);
+    xhr.open('POST', '/file/upload', true);
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {

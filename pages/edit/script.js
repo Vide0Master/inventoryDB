@@ -19,6 +19,6 @@ async function init_dropdown() {
     file_send_block.appendChild(send_button)
     send_button.innerText = 'Відправити'
     send_button.addEventListener('click', () => {
-        uploadFile('/file/upload', file_field, { sex: 'sex' })
+        uploadFile(file_field, { sex: 'sex' })
     })
 }

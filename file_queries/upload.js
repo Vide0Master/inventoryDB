@@ -11,7 +11,6 @@ const upload = (req, res) => {
         const user = JSON.parse(req.body.user);
         const args = JSON.parse(req.body.arguments);
         const files = req.files;
-        const fileInsertionResults = [];
 
         db.all('SELECT * FROM users WHERE login = ? AND private_key = ?', [user.login, user.key], (err, rows) => {
             if (err) {

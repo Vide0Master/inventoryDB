@@ -13,7 +13,7 @@ async function process_footer() {
 
     const lver = await request('/api/info', 'latest_ver', '')
     dblocks.version.innerText = lver.data.v
-    dblocks.organization.innerText = `Інвентар ЦЕМД та МК ЖОР`
+    dblocks.organization.innerText = `Тестовий інвентар`
     const load_time = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart
     dblocks.loading_time.innerText = `PLT: ${load_time}мс`
     dblocks.loading_time.style.color = calc_color(load_time)

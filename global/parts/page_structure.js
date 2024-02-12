@@ -21,4 +21,5 @@ head_require([
     { type: 'script', link: 'parts/footer/footer.js' },
     { type: 'script', link: 'parts/alert/alert.js' },
     { type: 'script', link: 'parts/user_card/user_card.js' },
+    { type: 'script', link: 'parts/upload_zone/upload_zone.js' },
 ]);

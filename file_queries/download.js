@@ -15,12 +15,16 @@ const download = (req, res) => {
                 const fileName = row.file_name; // Имя файла
                 const mimeType = row.mimetype; // MIME-тип файла
 
-                // Устанавливаем соответствующие заголовки ответа
-                res.setHeader('Content-Type', mimeType);
-                res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+                // Отправляем данные на клиент
 
-                // Отправляем BLOB-данные на клиент
-                res.status(200).end(fileData, 'binary');
+                res.status(200).json({
+                    result: 'succ',
+                    file: {
+                        raw_data: fileData.toString('base64'),
+                        file_name: fileName,
+                        mime_type: mimeType
+                    }
+                });
             } else {
                 res.status(404).json({ result: 'error', message: 'Файл не найден' });
             }

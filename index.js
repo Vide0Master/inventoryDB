@@ -24,7 +24,6 @@ const fileQueriesPath = "./file_queries";
 fs.readdirSync(fileQueriesPath).forEach(file => {
     const filePath = path.join(fileQueriesPath, file);
     const queryModule = require('./' + filePath);
-    // Добавляем функции из модуля в обработку запросов
     app.post(`/file/${path.parse(file).name}`, upload.array('files'), async (req, res) => {
         try {
             const result = await queryModule(req, res);
@@ -38,7 +37,6 @@ const queriesPath = "./queries";
 fs.readdirSync(queriesPath).forEach(file => {
     const filePath = path.join(queriesPath, file);
     const queryModule = require('./' + filePath);
-    // Добавляем функции из модуля в обработку запросов
     app.post(`/api/${path.parse(file).name}`, async (req, res) => {
         const arguments = req.body;
         const result = await queryModule(arguments);
@@ -48,10 +46,8 @@ fs.readdirSync(queriesPath).forEach(file => {
 
 const pagesPath = path.join(__dirname, 'pages');
 const globalFilesPath = path.join(__dirname, 'global');
-// Создаем символические ссылки для глобальных файлов внутри папок с страницами
 fs.readdirSync(pagesPath).forEach(page => {
     const pagePath = path.join(pagesPath, page);
-    // Обработка статических файлов
     app.use(`/${page}`, express.static(pagePath));
     app.use(`/${page}`, express.static(globalFilesPath));
     app.use(`/${page}`, sassMiddleware({
@@ -70,7 +66,6 @@ fs.readdirSync(pagesPath).forEach(page => {
         response: true,
         force: true,
     }));
-    // Обработка запроса на страницу
     app.get(`/${page}`, async (req, res) => {
         const indexPath = path.join(pagePath, 'index.html');
         res.sendFile(indexPath);

@@ -16,33 +16,28 @@ function createNotification(message, timeout = 0, type = "") {
     notification.className = `notification ${type}`;
     notification.innerHTML = `<span>${message}</span>`;
 
-    if (timeout == 0) notification.innerHTML += `<button onclick="removeNotification(this.parentNode)">×</button>`
-
-    container.appendChild(notification);
+    container.insertBefore(notification, container.firstChild);
 
     setTimeout(() => {
         notification.classList.add('show');
     }, 10);
 
-    const existingNotifications = container.getElementsByClassName('notification');
-    for (let i = 0; i < existingNotifications.length; i++) {
-        existingNotifications[i].style.transform = `translateY(-${notification.offsetHeight}px)`;
-    }
-
-    setTimeout(() => {
-        for (let i = 0; i < existingNotifications.length; i++) {
-            existingNotifications[i].style.transform = 'translateY(0)';
-        }
-    }, 500);
-
     if (timeout > 0) {
-        setTimeout(() => {
+        var timer = setTimeout(() => {
             removeNotification(notification);
         }, timeout);
     }
+
+    notification.addEventListener('click', () => {
+        clearTimeout(timer)
+        removeNotification(notification)
+    })
 }
 
 function removeNotification(notification) {
-    const container = document.getElementById('notification-container');
-    container.removeChild(notification);
+    notification.classList.add('removing-element')
+    setTimeout(() => {
+        const container = document.getElementById('notification-container');
+        container.removeChild(notification);
+    }, 700);
 }

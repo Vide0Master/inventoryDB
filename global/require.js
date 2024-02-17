@@ -1,11 +1,11 @@
 const base_requirements = [
     { type: 'script', link: 'parts/page_structure.js' },
     { type: 'script', link: 'session_controller.js' },
-    { type: 'style', link: 'nullify.css' },
-    { type: 'script', link: 'script.js' }
+    { type: 'style', link: 'nullify.css' }
 ];
 
 function loadScriptAsync(reqr) {
+    console.log(reqr)
     return new Promise((resolve, reject) => {
         const head = document.getElementsByTagName('head')[0];
         switch (reqr.type) {
@@ -13,8 +13,8 @@ function loadScriptAsync(reqr) {
                 const script = document.createElement('script');
                 script.src = reqr.link;
                 script.defer = true;
-                script.onload = resolve;
-                script.onerror = reject;
+                script.onload = resolve();
+                script.onerror = reject();
                 head.appendChild(script);
             }; break;
             case 'style': {
@@ -29,16 +29,19 @@ function loadScriptAsync(reqr) {
 }
 
 function head_require(requirements) {
-    // Using reduce to chain promises sequentially
-    return requirements.reduce((promise, reqr) => {
-        return promise.then(() => loadScriptAsync(reqr));
-    }, Promise.resolve());
-}
-
-head_require(base_requirements)
-    .then(() => {
-        console.log('All scripts and styles are loaded.');
+    return new Promise(resolve=>{
+        const promises = requirements.map(reqr=>{
+            return new Promise((resolve)=>{
+                loadScriptAsync(reqr).then(resolve())
+            })
+        })
+        Promise.all(promises).then(resolve())
     })
-    .catch((error) => {
-        console.error('Error loading scripts or styles:', error);
-    });
+}
+head_require(base_requirements)
+            .then(() => {
+                console.log('All scripts and styles are loaded.');
+            })
+            .catch((error) => {
+                console.error('Error loading scripts or styles:', error);
+            });

@@ -16,15 +16,14 @@ app.get('/', (req, res) => {
     res.redirect('/auth')
 })
 
-app.use(express.json());
-app.use(bodyParser.json());
+app.use(express.json({ limit: '100mb' }));
+app.use(bodyParser.json({ extended: true, limit: '100mb' }));
 
-const upload = multer({ charset: 'utf-8' });
 const fileQueriesPath = "./file_queries";
 fs.readdirSync(fileQueriesPath).forEach(file => {
     const filePath = path.join(fileQueriesPath, file);
     const queryModule = require('./' + filePath);
-    app.post(`/file/${path.parse(file).name}`, upload.array('files'), async (req, res) => {
+    app.post(`/file/${path.parse(file).name}`, async (req, res) => {
         try {
             const result = await queryModule(req, res);
         } catch (error) {

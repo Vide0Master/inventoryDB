@@ -1,63 +1,59 @@
-function downloadFile(id, type) {
-    let xhr = new XMLHttpRequest();
-    let formData = new FormData();
-    let usr = JSON.parse(sessionStorage.getItem('account'))
-    if (usr == null) usr = { login: 'def', key: 'def' }
-    const additionalData = {
-        id: id,
-        user: { login: usr.login, key: usr.skey }
-    }
-
-    for (const key in additionalData) {
-        if (additionalData.hasOwnProperty(key)) {
-            formData.append(key, JSON.stringify(additionalData[key]));
+async function downloadFile(id, type) {
+    try {
+        if(id==''){
+            alert('Id не введене',2000,'error')
+            return
         }
-    }
+        let usr = JSON.parse(sessionStorage.getItem('account'))
+        if (usr == null) usr = { login: 'def', key: 'def' }
+        const response = await fetch('/file/download', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: id,
+                user: { login: usr.login, key: usr.skey }
+            }),
+        });
+        if (!response.ok) {
+            alert(errorData.message, 5000, errorData.result);
+            return 'nsr'
+        }
+        const responseData = await response.json();
+        console.log(responseData)
+        if (responseData.result === 'succ') {
+            const fileData = responseData.file.raw_data;
+            const fileName = responseData.file.file_name;
+            const mimeType = responseData.file.mime_type;
 
-    xhr.open('POST', `/file/download`, true);
-    xhr.responseType = 'json'; // Устанавливаем тип ответа как JSON
-
-    xhr.onreadystatechange = function () {
-        console.log(xhr)
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                const responseData = xhr.response;
-                if (responseData.result === 'succ') {
-                    const fileData = responseData.file.raw_data;
-                    const fileName = responseData.file.file_name;
-                    const mimeType = responseData.file.mime_type;
-
-                    if (type === 'file') {
-                        // Если тип действия "file", создаем ссылку для скачивания
-                        const blob = b64toBlob(fileData, mimeType);
-                        const url = window.URL.createObjectURL(blob);
-                        // Создаем ссылку и автоматически загружаем файл при клике
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.download = fileName || 'file'; // Имя файла или "file", если имя не получено
-                        document.body.appendChild(link);
-                        link.click();
-
-                        // Удаляем ссылку после загрузки файла
-                        setTimeout(function () {
-                            window.URL.revokeObjectURL(url);
-                            document.body.removeChild(link);
-                        }, 0);
-                    } else if (type === 'data') {
-                        // Если тип действия "data", возвращаем данные файла
-                        console.log(blob); // Выводим данные файла в консоль
-                    } else {
-                        console.error('Invalid action type');
-                    }
-                } else {
-                    console.error('Failed to download file');
-                }
+            const blob = b64toBlob(fileData, mimeType);
+            const url = window.URL.createObjectURL(blob);
+            console.log(url)
+            if (type === 'file') {
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = fileName || 'file';
+                document.body.appendChild(link);
+                link.click();
+                setTimeout(function () {
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(link);
+                }, 0);
+            } else if (type === 'data') {
+                return url;
+            } else {
+                throw new Error('Invalid action type');
             }
+        } else {
+            throw new Error('Failed to download file');
         }
-    };
-
-    xhr.send(formData);
+    } catch (error) {
+        console.error('Failed to download file:', error);
+        throw error;
+    }
 }
+
 
 // Функция для конвертации base64 строки в Blob объект с указанием MIME-типа
 function b64toBlob(b64Data, contentType = '') {

@@ -1,4 +1,6 @@
-
 setTimeout(() => {
-    createFileUploadContainer(document.querySelector('.content'))
-}, 1000);
+
+    const content = document.getElementsByClassName('content')[0]
+    createFileUploadContainer(content)
+
+}, 0);

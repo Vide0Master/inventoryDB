@@ -25,16 +25,18 @@ function createFileUploadContainer(parentElement) {
         const files = fileInput.files;
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
+            const fileBlock = document.createElement('div')
             const fileItem = document.createElement('div');
             const rm_button = document.createElement('button')
             rm_button.innerText = 'Видалити'
             rm_button.addEventListener('click', () => {
                 removeFile(i)
             })
-            fileItem.className = 'file-item';
+            fileItem.className = 'file-item'
             fileItem.innerText = file.name
-            fileItem.appendChild(rm_button)
-            fileList.appendChild(fileItem);
+            fileBlock.appendChild(fileItem)
+            fileBlock.appendChild(rm_button)
+            fileList.appendChild(fileBlock)
         }
     }
 

@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const multer = require('multer');
 const path = require('path');
 
 const app = express();
@@ -9,7 +8,6 @@ const port = 3000;
 const fs = require('fs')
 const clog = require('./modules/consoleLogger')
 const flog = require('./modules/fileLogger')
-const fsf = require('./modules/fileSizeFormat')
 const sassMiddleware = require('node-sass-middleware');
 
 app.get('/', (req, res) => {
@@ -75,5 +73,4 @@ fs.readdirSync(pagesPath).forEach(page => {
 app.listen(port, () => {
     clog(flog.createFile(), 'i')
     clog(`Сервер доступний по порту:${port}`, 's')
-    clog(`Розмір бази данних складає: ${fsf(fs.statSync('./inventory.db').size)}`, 'i')
 });

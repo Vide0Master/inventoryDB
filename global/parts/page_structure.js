@@ -26,5 +26,5 @@ function init_page_struct() {
         { type: 'script', link: 'parts/alert/alert.js' },
         { type: 'script', link: 'parts/user_card/user_card.js' },
         { type: 'script', link: 'script.js' }
-    ]).then(console.log('page_initiated'))
+    ]).then()
 }

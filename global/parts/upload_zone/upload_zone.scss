@@ -11,7 +11,6 @@
         border-color: #06f;
         color: #06f;
         fill: #06f;
-        box-shadow: 0.3em 0.3em 0.5em 0.1em rgba(0, 0, 0, 0.5);
     }
 
     &:active {
@@ -33,32 +32,77 @@
 }
 
 #file-upload-container {
-    border: 0.2em solid rgb(179, 111, 221);
-    background-color: rgb(235, 203, 255);
+    border: 0.2em solid #0062d2;
+    background-color: #fff;
     padding: 0.5em;
     border-radius: 0.75em;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-gap: 0.5em;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    transition: 0.3s;
+    max-width: 30vw;
+    min-width:fit-content;
 
     #file-input {
-        padding: 1em;
-
+        width: fit-content;
         &::file-selector-button {
             @include buttons()
         }
     }
 
     #file-list {
+        border-radius: 0.4em;
+        padding: 0.4em;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        align-self: flex-start;
+        gap: 0.4em;
+
+        &:empty {
+            display: none;
+        }
+
+        .file-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1em;
+            flex-grow: 1;
+            height: auto;
+            border: 0.2em solid purple;
+            border-radius: 0.4em;
+            padding: 0.4em;
+
+            .file-name {
+                word-break: break-all;
+            }
+
+            .file-remove {
+                @include buttons();
+            }
+
+            &.rm-animation {
+                animation: rm-elem 0.4s ease forwards;
+            }
 
 
-        .file-item {}
+        }
     }
 
     #upload-btn {
         @include buttons()
+    }
+}
+
+@keyframes rm-elem {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
     }
 }

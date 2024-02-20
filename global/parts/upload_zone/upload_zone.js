@@ -18,39 +18,57 @@ function createFileUploadContainer(parentElement) {
     uploadBtn.id = 'upload-btn'
     uploadBtn.innerText = 'Завантажити'
 
-    fileInput.addEventListener('change', updateFileList);
+    fileInput.addEventListener('change', renderFileList);
 
-    function updateFileList() {
+    function getFileExtension(filename) {
+        return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
+    }
+
+    function renderFileList() {
         fileList.innerHTML = '';
         const files = fileInput.files;
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             const fileBlock = document.createElement('div')
+            fileBlock.className = 'file-item'
+            let fbbcStyle=''
+            switch(getFileExtension(file.name)){
+                case'doc':{fbbcStyle='#6279fc'};break;
+                case'docx':{fbbcStyle='#2142ff'};break;
+                case'txt':{fbbcStyle='#ababab'};break;
+            }
+            if(file.type.startsWith('image/')) fbbcStyle='#fcb542'
+            fileBlock.style.borderColor=fbbcStyle
             const fileItem = document.createElement('div');
-            const rm_button = document.createElement('button')
-            rm_button.innerText = 'Видалити'
-            rm_button.addEventListener('click', () => {
-                removeFile(i)
-            })
-            fileItem.className = 'file-item'
+            fileItem.className = 'file-name'
             fileItem.innerText = file.name
+
+            const rm_button = document.createElement('button')
+            rm_button.className = 'file-remove'
+            rm_button.innerText = 'Видалити'
+            rm_button.addEventListener('click', (e) => {
+                removeFile(file.name, e)
+            })
+            
             fileBlock.appendChild(fileItem)
             fileBlock.appendChild(rm_button)
             fileList.appendChild(fileBlock)
         }
     }
 
-    function removeFile(index) {
+    function removeFile(fn, event) {
         let dataTransfer = new DataTransfer();
-
-        for (let i = 0; i < fileInput.files.length; i++) {
-            if (i !== index) {
-                dataTransfer.items.add(fileInput.files[i]);
+        for(const file of fileInput.files){
+            if (file.name !== fn) {
+                dataTransfer.items.add(file);
             }
+            if(file.name == fn) console.log(file)
         }
-
         fileInput.files = dataTransfer.files;
-        updateFileList();
+        event.target.parentNode.classList.add('rm-animation')
+        event.target.parentNode.addEventListener('animationend',()=>{
+            event.target.parentNode.remove()
+        })
     }
 
     uploadBtn.addEventListener('click', async () => {
@@ -62,7 +80,7 @@ function createFileUploadContainer(parentElement) {
         for (const file of files) {
             const uploadResult = await uploadFile(file, {});
             console.log(uploadResult)
-            alert(uploadResult.message,2000,uploadResult.result)
+            alert(uploadResult.message, 2000, uploadResult.result)
         }
     });
 }

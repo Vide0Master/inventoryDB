@@ -5,7 +5,6 @@ const base_requirements = [
 ];
 
 function loadScriptAsync(reqr) {
-    console.log(reqr)
     return new Promise((resolve, reject) => {
         const head = document.getElementsByTagName('head')[0];
         switch (reqr.type) {
@@ -39,9 +38,7 @@ function head_require(requirements) {
     })
 }
 head_require(base_requirements)
-            .then(() => {
-                console.log('All scripts and styles are loaded.');
-            })
+            .then()
             .catch((error) => {
                 console.error('Error loading scripts or styles:', error);
             });

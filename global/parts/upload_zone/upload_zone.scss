@@ -22,7 +22,6 @@
 
     &:disabled {
         pointer-events: none;
-        border: 0.15em solid #11ff00;
     }
 
     @media screen and (max-width: 600px) {
@@ -43,13 +42,14 @@
     gap: 0.5em;
     transition: 0.3s;
     max-width: 30vw;
-    min-width:fit-content;
+    min-width: fit-content;
 
-    #file-input {
-        width: fit-content;
-        &::file-selector-button {
-            @include buttons()
-        }
+    .buttons-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
     }
 
     #file-list {
@@ -58,7 +58,6 @@
         display: flex;
         flex-direction: column;
         align-items: stretch;
-        align-self: flex-start;
         gap: 0.4em;
 
         &:empty {
@@ -82,11 +81,12 @@
             }
 
             .file-remove {
+
                 @include buttons();
             }
 
             &.rm-animation {
-                animation: rm-elem 0.4s ease forwards;
+                animation: rm-elem 1s ease-in forwards;
             }
 
 
@@ -94,15 +94,19 @@
     }
 
     #upload-btn {
-        @include buttons()
+        @include buttons();
     }
 }
 
 @keyframes rm-elem {
     0% {
         opacity: 1;
+        filter: blur(0px);
+        pointer-events: none;
     }
     100% {
         opacity: 0;
+        filter: blur(30px);
+        pointer-events: none;
     }
 }

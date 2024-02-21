@@ -1,7 +1,7 @@
 [
     { "name": "Інформація та інструкції", "link": "InI", "AL": 0 },
     { "name": "Пошук", "link": "search", "AL": 0 },
-    { "name": "Редагування", "link": "edit", "AL": 0 },
+    { "name": "Дія", "link": "action", "AL": 0 },
     { "name": "Звіт", "link": "report", "AL": 0 },
     { "name": "Панель адміністратора", "link": "admin", "AL": 1 }
 ]

@@ -16,11 +16,12 @@ const upload = async (req, res) => {
                 const fileBuffer = Buffer.from(file, 'base64');
 
                 // Продолжаем обработку файла и сохранение в базу данных
-                db.run('INSERT INTO storage (id, file_name, mimetype, data) VALUES (?, ?, ?, ?)', [Math.floor(Math.random() * 10000), fileName, fileType, fileBuffer], (err) => {
+                const FID = Math.floor(Math.random() * 10000)
+                db.run('INSERT INTO storage (id, file_name, mimetype, data) VALUES (?, ?, ?, ?)', [FID, fileName, fileType, fileBuffer], (err) => {
                     if (err) {
                         return res.status(500).json({ result: 'error', message: `Помилка бази даних:${err}` });
                     }
-                    res.json({ result: 'succ', message:`Файл [${fileName}] Завантажено` });
+                    res.json({ result: 'succ', message:`Файл [${fileName}] Завантажено під ID#${FID}` });
                 });
             } else {
                 res.status(401).json({ result: 'error', message: 'Помилка аутентифікації' });

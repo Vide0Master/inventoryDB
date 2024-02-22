@@ -70,6 +70,7 @@ const db_interact = (req) => {
                         });
                     }; break;
                     case 'get_item': {
+                        //TODO
                         query = `SELECT * FROM items WHERE "${req.arguments.col}" LIKE "${req.arguments.value}"`
                         db.all(query, (err, rows) => {
                             if (err) {
@@ -82,6 +83,7 @@ const db_interact = (req) => {
                         });
                     }; break;
                     case 'get_all_items': {
+                        //TODO
                         query = `SELECT * FROM items`
                         values = []
                         db.all(query, values, (err, rows) => {
@@ -95,6 +97,7 @@ const db_interact = (req) => {
                         });
                     }; break;
                     case 'set_item': {
+                        //TODO
                         const insrt = [req.arguments.inv_number, req.arguments.item_name, req.arguments.item_type, Number(req.arguments.cost), req.arguments.comment, req.arguments.cabinet, req.arguments.workplace, req.arguments.user, req.arguments.creation_timestamp, req.arguments.edit_timestamp]
                         for (const key in data_limits) {
                             if ((String(req.arguments[key]).length > data_limits[key]) && (!key.endsWith('timestamp'))) {
@@ -111,6 +114,7 @@ const db_interact = (req) => {
                         });
                     }; break;
                     case 'update_item': {
+                        //TODO
                         const upd = [req.arguments.item_name, req.arguments.item_type, Number(req.arguments.cost), req.arguments.comment, req.arguments.edit_timestamp, req.arguments.inv_number]
                         for (const key in data_limits) {
                             if ((String(req.arguments[key]).length > data_limits[key]) && (!key.endsWith('timestamp'))) {
@@ -127,6 +131,7 @@ const db_interact = (req) => {
                         })
                     }; break;
                     case 'move_item': {
+                        //TODO
                         const upd = [req.arguments.cabinet, req.arguments.workplace, req.arguments.user, req.arguments.edit_timestamp, req.arguments.inv_number]
                         for (const key in data_limits) {
                             if ((String(req.arguments[key]).length > data_limits[key]) && (!key.endsWith('timestamp'))) {
@@ -147,6 +152,7 @@ const db_interact = (req) => {
                         });
                     }
                     case 'get_all_relocations': {
+                        //TODO
                         query = `SELECT * FROM "relocations"`
                         db.all(query, (err, rows) => {
                             if (err) {
@@ -159,6 +165,7 @@ const db_interact = (req) => {
                         });
                     }; break;
                     case 'get_item_types': {
+                        //TODO
                         db.all(`SELECT * FROM "inv_item_types"`, (err, rows) => {
                             if (err) {
                                 resolve({ result: 'error', message: `Помилка бази даних:${err}` });
@@ -172,6 +179,7 @@ const db_interact = (req) => {
                         })
                     }; break;
                     case 'edit_item_types': {
+                        //TODO
                         switch (req.arguments.type) {
                             case 'add': {
                                 if (String(req.arguments.name).length > data_limits.item_type) {
@@ -199,6 +207,7 @@ const db_interact = (req) => {
                         }
                     }; break;
                     case 'reboot_n_update': {
+                        //TODO
                         if (req.arguments.rq_type == 'shutdown') {
                             if (req.arguments.pass == user_acc.password) {
                                 resolve({ result: "warn", message: `Команда перезавантаження отримана` })
@@ -213,6 +222,7 @@ const db_interact = (req) => {
                         }
                     }; break;
                     case 'get_all_users': {
+                        //TODO
                         if (user_acc.permission_level > 0) {
                             db.all(`SELECT * FROM "users"`, (err, rows) => {
                                 if (err) {
@@ -227,6 +237,7 @@ const db_interact = (req) => {
                         }
                     }; break;
                     case 'update_user_parameter': {
+                        //TODO
                         if (user_acc.permission_level > 0) {
                             db.run(`UPDATE users SET "${req.arguments.ftype}" = "${req.arguments.value}" WHERE login = "${req.arguments.user}"`, (err) => {
                                 if (err) {
@@ -238,6 +249,7 @@ const db_interact = (req) => {
                         }
                     }; break;
                     case 'create_user': {
+                        //TODO
                         if (user_acc.permission_level > 0) {
                             db.run(`INSERT INTO users ("login","password","surname","name","permission_level") VALUES ("${req.arguments.login}","${req.arguments.password}","${req.arguments.surname}","${req.arguments.name}","${req.arguments.permission_level}")`, err => {
                                 if (err) {
@@ -251,6 +263,7 @@ const db_interact = (req) => {
                         }
                     }; break;
                     case 'delete_user': {
+                        //TODO
                         if (user_acc.permission_level > 0) {
                             db.run(`DELETE FROM users WHERE "login" = "${req.arguments.login}"`, err => {
                                 if (err) {

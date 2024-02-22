@@ -28,7 +28,7 @@ const auth = (args) => {
                     resolve({ result: 'success', data: {name:user.name,surname:user.surname,PK:key,LP:user.last_page,permission_level:user.permission_level } });
                 } else {
                     cLog(`Користувач ${user.login}(${user.name} ${user.surname}) спробував авторизуватись, але ввів неправильний пароль!`,"i")
-                    resolve({ result: 'error', message: 'Невірні дані авторизації!' });
+                    resolve({ result: 'error', message: 'Помилка авторизації!' });
                 }
             } else {
                 cLog(`Спроба авторизації користувача ${login} невдала, бо такого користувача не існує`,"i")

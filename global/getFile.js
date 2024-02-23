@@ -4,23 +4,9 @@ async function downloadFile(id, type) {
             alert('Id не введене',2000,'error')
             return
         }
-        let usr = JSON.parse(sessionStorage.getItem('account'))
-        if (usr == null) usr = { login: 'def', key: 'def' }
-        const response = await fetch('/file/download', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                id: id,
-                user: { login: usr.login, key: usr.skey }
-            }),
-        });
-        if (!response.ok) {
-            alert(errorData.message, 5000, errorData.result);
-            return 'nsr'
-        }
-        const responseData = await response.json();
+        const responseData = await request('/api/fileInteract','sendFile',{
+            id: id
+        })
         console.log(responseData)
         if (responseData.result === 'succ') {
             const fileData = responseData.file.raw_data;
@@ -53,7 +39,6 @@ async function downloadFile(id, type) {
         throw error;
     }
 }
-
 
 // Функция для конвертации base64 строки в Blob объект с указанием MIME-типа
 function b64toBlob(b64Data, contentType = '') {

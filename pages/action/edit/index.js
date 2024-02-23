@@ -7,7 +7,5 @@ function open_edit() {
         }
     }
 
-    const testbtn = document.createElement('button')
-    testbtn.innerText='2'
-    content.appendChild(testbtn)
+    createFileUploadContainer(content)
 }

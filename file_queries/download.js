@@ -17,12 +17,7 @@ const download = (req, res) => {
 
                 // Отправляем данные на клиент
                 res.status(200).json({
-                    result: 'succ',
-                    file: {
-                        raw_data: fileData.toString('base64'),
-                        file_name: fileName,
-                        mime_type: mimeType
-                    }
+
                 });
             } else {
                 res.status(500).json({ result: 'error', message: `Файл #${fileId} не знайдено!` });

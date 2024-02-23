@@ -17,19 +17,6 @@ app.get('/', (req, res) => {
 app.use(express.json({ limit: '100mb' }));
 app.use(bodyParser.json({ extended: true, limit: '100mb' }));
 
-const fileQueriesPath = "./file_queries";
-fs.readdirSync(fileQueriesPath).forEach(file => {
-    const filePath = path.join(fileQueriesPath, file);
-    const queryModule = require('./' + filePath);
-    app.post(`/file/${path.parse(file).name}`, async (req, res) => {
-        try {
-            const result = await queryModule(req, res);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    });
-});
-
 const queriesPath = "./queries";
 fs.readdirSync(queriesPath).forEach(file => {
     const filePath = path.join(queriesPath, file);
@@ -73,4 +60,5 @@ fs.readdirSync(pagesPath).forEach(page => {
 app.listen(port, () => {
     clog(flog.createFile(), 'i')
     clog(`Сервер доступний по порту:${port}`, 's')
+    require('./modules/db_VACUUM')
 });

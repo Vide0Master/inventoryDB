@@ -1,7 +1,10 @@
-.creation-block{
+.creation-block {
     border: 0.2em solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.5em;
 
-    .create_file_label{
-        
-    }
+    .create_file_label {}
 }

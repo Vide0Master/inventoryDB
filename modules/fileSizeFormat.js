@@ -9,5 +9,5 @@ module.exports = function (fileSizeInBytes) {
         unitIndex++;
     }
 
-    return `${size.toFixed(2)} ${sizes[unitIndex]}`;
+    return `${size.toFixed(2)}${sizes[unitIndex]}`;
 }

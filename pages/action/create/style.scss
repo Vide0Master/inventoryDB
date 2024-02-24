@@ -1,10 +1,55 @@
 .creation-block {
-    border: 0.2em solid black;
+    border: 0.2em solid #0062d2;
+    border-radius: 1em;
+    background-color: #fff;
+    padding: 1em;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5em;
-    padding: 0.5em;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1em;
 
-    .create_file_label {}
+    @media screen and (max-width: 1030px) {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .item-zone {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1em;
+        min-width: min-content;
+        flex-shrink: 0;
+
+        .create-file-label {
+            font-size: 1.5em;
+        }
+
+        .data-fields {
+            border: 0.2em solid #0062d2;
+            border-radius: 1em;
+            padding: 0.5em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5em;
+            min-width: min-content;
+        }
+    }
+
+    .file-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1em;
+        min-width: min-content;
+        flex-shrink: 0;
+
+        .text {
+            font-size: 1.5em;
+        }
+    }
 }

@@ -44,6 +44,10 @@
     max-width: 30vw;
     min-width: fit-content;
 
+    @media screen and (max-width: 600px) {
+        max-width: 90vw;
+    }
+
     .buttons-row {
         display: flex;
         flex-direction: row;
@@ -67,22 +71,30 @@
         .file-item {
             display: flex;
             flex-direction: row;
-            align-items: center;
+            align-items: flex-start;
             justify-content: space-between;
             gap: 1em;
             flex-grow: 1;
-            height: auto;
             border: 0.2em solid purple;
             border-radius: 0.4em;
             padding: 0.4em;
+            position: relative;
 
-            .file-name {
-                word-break: break-all;
+            .name-n-type {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3em;
+                .file-name {
+                    word-break: break-all;
+                }
+
+                .type-list {}
             }
 
             .file-remove {
-
                 @include buttons();
+                align-self: flex-end;
             }
 
             &.rm-animation {
@@ -104,6 +116,7 @@
         filter: blur(0px);
         pointer-events: none;
     }
+
     100% {
         opacity: 0;
         filter: blur(30px);

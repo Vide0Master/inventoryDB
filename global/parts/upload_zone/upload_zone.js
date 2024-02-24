@@ -29,18 +29,15 @@ function createFileUploadContainer(parentElement) {
     fileUploadContainer.appendChild(fileList)
     fileList.id = 'file-list'
 
-    const uploadBtn = document.createElement('button')
-    buttonsRow.appendChild(uploadBtn)
-    uploadBtn.id = 'upload-btn'
-    uploadBtn.innerText = 'Завантажити'
-
     fileInput.addEventListener('change', renderFileList);
 
     function getFileExtension(filename) {
         return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
     }
 
-    function renderFileList() {
+
+
+    async function renderFileList() {
         fileList.innerHTML = '';
         const files = fileInput.files;
         for (let i = 0; i < files.length; i++) {
@@ -48,16 +45,50 @@ function createFileUploadContainer(parentElement) {
             const fileBlock = document.createElement('div')
             fileBlock.className = 'file-item'
             let fbbcStyle = ''
+            let filetype = 'STRG_OTHER'
             switch (getFileExtension(file.name)) {
-                case 'doc': { fbbcStyle = '#6279fc' }; break;
-                case 'docx': { fbbcStyle = '#2142ff' }; break;
-                case 'txt': { fbbcStyle = '#ababab' }; break;
+                case 'doc': {
+                    fbbcStyle = '#6279fc'
+                    filetype = 'STRG_DOCTYPE'
+                }; break;
+                case 'docx': {
+                    fbbcStyle = '#2142ff'
+                    filetype = 'STRG_DOCTYPE'
+                }; break;
+                case 'txt': {
+                    fbbcStyle = '#ababab'
+                    filetype = 'STRG_DOCTYPE'
+                }; break;
             }
-            if (file.type.startsWith('image/')) fbbcStyle = '#fcb542'
+            if (file.type.startsWith('image/')) {
+                fbbcStyle = '#fcb542'
+                filetype = 'STRG_IMGTYPE'
+            }
             fileBlock.style.borderColor = fbbcStyle
             const fileItem = document.createElement('div');
             fileItem.className = 'file-name'
             fileItem.innerText = file.name
+
+            const type_list = document.createElement('select')
+            type_list.className='type-list'
+            const placeholder = document.createElement('option')
+            type_list.appendChild(placeholder)
+            placeholder.value = ""
+            placeholder.disabled = true
+            placeholder.selected = true
+            placeholder.hidden = true
+            switch(filetype){
+                case'STRG_DOCTYPE':{placeholder.innerText ='Оберіть тип документа'};break;
+                case'STRG_IMGTYPE':{placeholder.innerText ='Оберіть тип зображення'};break;
+                case'STRG_OTHER':{placeholder.innerText ='Оберіть тип файлу'};break;
+            }
+            const fileTypes = await request('/api/getSettings',filetype)
+            fileTypes.data.forEach(type => {
+                const opt = document.createElement('option')
+                type_list.appendChild(opt)
+                opt.value = type.value
+                opt.innerText = type.value
+            });
 
             const rm_button = document.createElement('button')
             rm_button.className = 'file-remove'
@@ -66,7 +97,12 @@ function createFileUploadContainer(parentElement) {
                 removeFile(file.name, e)
             })
 
-            fileBlock.appendChild(fileItem)
+            const name_n_type = document.createElement('div')
+            name_n_type.className='name-n-type'
+            
+            fileBlock.appendChild(name_n_type)
+            name_n_type.appendChild(fileItem)
+            name_n_type.appendChild(type_list)
             fileBlock.appendChild(rm_button)
             fileList.appendChild(fileBlock)
         }
@@ -74,17 +110,17 @@ function createFileUploadContainer(parentElement) {
 
     function clearFiles() {
         const buttons = document.querySelectorAll('.file-item .file-remove')
-        if(buttons.length==0){
-            alert("Список файлів пустий",3000,'warn')
+        if (buttons.length == 0) {
+            alert("Список файлів пустий", 3000, 'warn')
         }
 
         let i = buttons.length - 1;
         function clickButton() {
-          if (i >= 0) {
-            buttons[i].click();
-            i--;
-            setTimeout(clickButton, 50);
-          }
+            if (i >= 0) {
+                buttons[i].click();
+                i--;
+                setTimeout(clickButton, 50);
+            }
         }
         clickButton();
     }
@@ -102,19 +138,7 @@ function createFileUploadContainer(parentElement) {
             event.target.parentNode.remove()
         })
     }
-
-    uploadBtn.addEventListener('click', async () => {
-        const files = fileInput.files;
-        if (files.length == 0) {
-            alert('Файл(и) для завантаження не вибрані!', 5000, 'error')
-            return
-        }
-        for (const file of files) {
-            const uploadResult = await uploadFile(file, {});
-            console.log(uploadResult)
-            alert(uploadResult.message, 2000, uploadResult.result)
-        }
-    });
+    return fileInput
 }
 
 head_require([

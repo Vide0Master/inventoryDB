@@ -12,10 +12,6 @@ function open_create() {
     content.appendChild(blck_zone)
     blck_zone.className = 'creation-block'
 
-    const create_file_label = document.createElement('div')
-    blck_zone.appendChild(create_file_label)
-    create_file_label.innerText = 'Додавання інвентарного запису'
-    create_file_label.className = 'create_file_label'
 
     const dat_types = [
         { name: 'Інвентарний номер', tag: 'IN' },
@@ -24,8 +20,8 @@ function open_create() {
         { name: 'Ціна', tag: 'CS' },
         { name: 'Коментарій', tag: 'CM' },
         { name: 'Статус', tag: 'ST' },
-        { name: 'Додати документ', tag: 'AD' },
-        { name: 'Додати фото', tag: 'AP' },
+        { name: 'Додати файли', tag: 'AF' },
+        { name: 'Додати запис', tag: 'AC' },
     ]
 
     let fields = {
@@ -37,88 +33,132 @@ function open_create() {
             comment: null,
             status: null
         },
-        docs: null,
-        photo: null
+        files: []
     }
+    const item_zone = document.createElement('div')
+    item_zone.className = 'item-zone'
+    blck_zone.appendChild(item_zone)
+
+    const create_file_label = document.createElement('div')
+    item_zone.appendChild(create_file_label)
+    create_file_label.innerText = 'Додавання інвентарного запису'
+    create_file_label.className = 'create-file-label'
+
+    const data_fields = document.createElement('div')
+    item_zone.appendChild(data_fields)
+    data_fields.className='data-fields'
 
     dat_types.forEach(async (field) => {
         const data_field = document.createElement('div')
-        blck_zone.appendChild(data_field)
+        data_fields.appendChild(data_field)
         data_field.className = 'item-field'
         switch (field.tag) {
             case 'IN': {
                 const input = document.createElement('input')
                 data_field.appendChild(input)
-                input.type='number'
-                input.placeholder=field.name
+                input.type = 'number'
+                input.placeholder = field.name
+                fields.item.inv_number = input
+                input.addEventListener('change', async () => {
+                    const id_state = await request('/api/inevntory_interact', 'checkID', { id: input.value })
+                    if (id_state.result) {
+                        alert(`Інвентарний номер ${input.value} зайнято!`, 2500, 'error')
+                        input.style.borderColor = 'red'
+                    } else {
+                        input.style.borderColor = 'green'
+                    }
+                })
             }; break;
             case 'NM': {
                 const input = document.createElement('input')
                 data_field.appendChild(input)
-                input.type='text'
-                input.placeholder=field.name
+                input.type = 'text'
+                input.placeholder = field.name
+                fields.item.item_name = input
             }; break;
             case 'TP': {
                 const input = document.createElement('select')
                 data_field.appendChild(input)
-                const placeholder=document.createElement('option')
+                const placeholder = document.createElement('option')
                 input.appendChild(placeholder)
-                placeholder.value=""
-                placeholder.disabled=true
-                placeholder.selected=true
-                placeholder.hidden=true
-                placeholder.innerText='Оберіть тип'
+                placeholder.value = ''
+                placeholder.disabled = true
+                placeholder.selected = true
+                placeholder.hidden = true
+                placeholder.innerText = 'Оберіть тип'
 
-                const response = await request('/api/getSettings','IIT')
-                response.data.forEach(val=>{
+                const response = await request('/api/getSettings', 'IIT')
+                response.data.forEach(val => {
                     const opt = document.createElement('option')
                     input.appendChild(opt)
-                    opt.value=val.value
-                    opt.innerText=val.value
+                    opt.value = val.value
+                    opt.innerText = val.value
                 })
+                fields.item.item_type = input
             }; break;
             case 'CS': {
                 const input = document.createElement('input')
                 data_field.appendChild(input)
-                input.type='number'
-                input.placeholder=field.name
+                input.type = 'number'
+                input.placeholder = field.name
+                fields.item.cost = input
             }; break;
             case 'CM': {
                 const input = document.createElement('input')
                 data_field.appendChild(input)
-                input.type='text'
-                input.placeholder=field.name
+                input.type = 'text'
+                input.placeholder = field.name
+                fields.item.comment = input
             }; break;
             case 'ST': {
                 const input = document.createElement('select')
                 data_field.appendChild(input)
-                const placeholder=document.createElement('option')
+                const placeholder = document.createElement('option')
                 input.appendChild(placeholder)
-                placeholder.value=""
-                placeholder.disabled=true
-                placeholder.selected=true
-                placeholder.hidden=true
-                placeholder.innerText='Оберіть стан'
+                placeholder.value = ""
+                placeholder.disabled = true
+                placeholder.selected = true
+                placeholder.hidden = true
+                placeholder.innerText = 'Оберіть стан'
 
-                const response = await request('/api/getSettings','ISTATE')
-                response.data.forEach(val=>{
+                const response = await request('/api/getSettings', 'ISTATE')
+                response.data.forEach(val => {
                     const opt = document.createElement('option')
                     input.appendChild(opt)
-                    opt.value=val.value
-                    opt.innerText=val.value
+                    opt.value = val.value
+                    opt.innerText = val.value
+                })
+                fields.item.status = input
+            }; break;
+            case 'AF': {
+                const input = document.createElement('input')
+                data_field.appendChild(input)
+                input.type = 'button'
+                input.value = field.name
+                const openFileInput = input.addEventListener('click', () => {
+                    input.value = 'Відмінити додавання файлів'
+                    const file_zone = document.createElement('div')
+                    blck_zone.appendChild(file_zone)
+                    file_zone.className = 'file-block'
+                    const text_blck = document.createElement('div')
+                    file_zone.appendChild(text_blck)
+                    text_blck.innerText = 'Файли'
+                    text_blck.className = 'text'
+                    fields.docs.files = createFileUploadContainer(file_zone)
+                    removeEventListener(openFileInput)
+                    input.addEventListener('click',()=>{
+
+                    })
                 })
             }; break;
-            case 'AD': {
+            case 'AC': {
                 const input = document.createElement('input')
                 data_field.appendChild(input)
-                input.type='button'
-                input.value='Додати документ'
-            }; break;
-            case 'AP': {
-                const input = document.createElement('input')
-                data_field.appendChild(input)
-                input.type='button'
-                input.value='Додати фото'
+                input.type = 'button'
+                input.value = field.name
+                input.addEventListener('click', async () => {
+
+                })
             }; break;
         }
     })

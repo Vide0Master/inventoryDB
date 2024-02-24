@@ -14,8 +14,8 @@ app.get('/', (req, res) => {
     res.redirect('/auth')
 })
 
-app.use(express.json({ limit: '100mb' }));
-app.use(bodyParser.json({ extended: true, limit: '100mb' }));
+app.use(express.json({ limit: '10mb' }));
+app.use(bodyParser.json({ extended: true, limit: '10mb' }));
 
 const queriesPath = "./queries";
 fs.readdirSync(queriesPath).forEach(file => {

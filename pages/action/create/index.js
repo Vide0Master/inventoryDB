@@ -135,8 +135,8 @@ function open_create() {
                 data_field.appendChild(input)
                 input.type = 'button'
                 input.value = field.name
-                const openFileInput = input.addEventListener('click', () => {
-                    input.value = 'Відмінити додавання файлів'
+                input.addEventListener('click', () => {
+                    input.disabled = true
                     const file_zone = document.createElement('div')
                     blck_zone.appendChild(file_zone)
                     file_zone.className = 'file-block'
@@ -145,10 +145,6 @@ function open_create() {
                     text_blck.innerText = 'Файли'
                     text_blck.className = 'text'
                     fields.docs.files = createFileUploadContainer(file_zone)
-                    removeEventListener(openFileInput)
-                    input.addEventListener('click',()=>{
-
-                    })
                 })
             }; break;
             case 'AC': {

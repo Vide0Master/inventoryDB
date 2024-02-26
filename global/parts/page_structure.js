@@ -17,7 +17,6 @@ function init_page_struct() {
 
     head_require([
         { type: 'script', link: 'request.js' },
-        { type: 'script', link: 'sendFile.js' },
         { type: 'script', link: 'getFile.js' },
         { type: 'script', link: 'parts/upload_zone/upload_zone.js' },
         { type: 'script', link: 'parts/page_list/page_list.js' },

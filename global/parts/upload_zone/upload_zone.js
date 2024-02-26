@@ -35,8 +35,6 @@ function createFileUploadContainer(parentElement) {
         return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
     }
 
-
-
     async function renderFileList() {
         fileList.innerHTML = '';
         const files = fileInput.files;
@@ -70,19 +68,19 @@ function createFileUploadContainer(parentElement) {
             fileItem.innerText = file.name
 
             const type_list = document.createElement('select')
-            type_list.className='type-list'
+            type_list.className = 'type-list'
             const placeholder = document.createElement('option')
             type_list.appendChild(placeholder)
             placeholder.value = ""
             placeholder.disabled = true
             placeholder.selected = true
             placeholder.hidden = true
-            switch(filetype){
-                case'STRG_DOCTYPE':{placeholder.innerText ='Оберіть тип документа'};break;
-                case'STRG_IMGTYPE':{placeholder.innerText ='Оберіть тип зображення'};break;
-                case'STRG_OTHER':{placeholder.innerText ='Оберіть тип файлу'};break;
+            switch (filetype) {
+                case 'STRG_DOCTYPE': { placeholder.innerText = 'Оберіть тип документа' }; break;
+                case 'STRG_IMGTYPE': { placeholder.innerText = 'Оберіть тип зображення' }; break;
+                case 'STRG_OTHER': { placeholder.innerText = 'Оберіть тип файлу' }; break;
             }
-            const fileTypes = await request('/api/getSettings',filetype)
+            const fileTypes = await request('/api/getSettings', filetype)
             fileTypes.data.forEach(type => {
                 const opt = document.createElement('option')
                 type_list.appendChild(opt)
@@ -98,8 +96,8 @@ function createFileUploadContainer(parentElement) {
             })
 
             const name_n_type = document.createElement('div')
-            name_n_type.className='name-n-type'
-            
+            name_n_type.className = 'name-n-type'
+
             fileBlock.appendChild(name_n_type)
             name_n_type.appendChild(fileItem)
             name_n_type.appendChild(type_list)
@@ -138,9 +136,47 @@ function createFileUploadContainer(parentElement) {
             event.target.parentNode.remove()
         })
     }
-    return fileInput
+
+    return async function () {
+        let data = []
+        for (const file of fileInput.files) {
+            data.push({
+                file: {
+                    fileData: await readFileAsBase64(file),
+                    fileName: file.name,
+                    fileMIMEType: file.type,
+                }, type: ''
+            })
+        }
+        let err = false
+        fileList.querySelectorAll('.type-list').forEach((type, i) => {
+            data[i].type = type.value
+            if(type.value=='') {
+                alert(`Для файлу ${data[i].file.fileName} не було обрано типу!`,0,'error')
+                err=true
+            }
+        })
+
+        if(err){
+            return 'err'
+        }else{
+            return data
+        }
+    }
 }
 
 head_require([
     { type: 'style', link: 'parts/upload_zone/upload_zone.css' }
 ])
+
+async function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            const base64String = reader.result.split(',')[1];
+            resolve(base64String);
+        };
+        reader.onerror = error => reject(error);
+    });
+}

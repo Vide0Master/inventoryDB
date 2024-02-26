@@ -1,4 +1,13 @@
 function open_create() {
+    function check_field(e){
+        const elem = e.target
+        if(['','0'].includes(elem.value.toString().trim())){
+            elem.style.borderColor = 'red'
+        }else{
+            elem.style.borderColor = 'green'
+        }
+    }
+
     const content = document.querySelector('.content')
     const contentCH = content.childNodes
     for (let i = 0; i < contentCH.length; i++) {
@@ -33,7 +42,7 @@ function open_create() {
             comment: null,
             status: null
         },
-        files: []
+        files: null
     }
     const item_zone = document.createElement('div')
     item_zone.className = 'item-zone'
@@ -46,7 +55,7 @@ function open_create() {
 
     const data_fields = document.createElement('div')
     item_zone.appendChild(data_fields)
-    data_fields.className='data-fields'
+    data_fields.className = 'data-fields'
 
     dat_types.forEach(async (field) => {
         const data_field = document.createElement('div')
@@ -60,12 +69,13 @@ function open_create() {
                 input.placeholder = field.name
                 fields.item.inv_number = input
                 input.addEventListener('change', async () => {
+                    if (input.value == 0) { input.style.borderColor = 'red' }
                     const id_state = await request('/api/inevntory_interact', 'checkID', { id: input.value })
                     if (id_state.result) {
                         alert(`Інвентарний номер ${input.value} зайнято!`, 2500, 'error')
-                        input.style.borderColor = 'red'
+                        input.style.borderBottomColor = 'red'
                     } else {
-                        input.style.borderColor = 'green'
+                        input.style.borderBottomColor = 'green'
                     }
                 })
             }; break;
@@ -75,6 +85,7 @@ function open_create() {
                 input.type = 'text'
                 input.placeholder = field.name
                 fields.item.item_name = input
+                input.addEventListener('change',(e)=>check_field(e))
             }; break;
             case 'TP': {
                 const input = document.createElement('select')
@@ -95,6 +106,7 @@ function open_create() {
                     opt.innerText = val.value
                 })
                 fields.item.item_type = input
+                input.addEventListener('change',(e)=>check_field(e))
             }; break;
             case 'CS': {
                 const input = document.createElement('input')
@@ -109,6 +121,7 @@ function open_create() {
                 input.type = 'text'
                 input.placeholder = field.name
                 fields.item.comment = input
+                input.addEventListener('change',(e)=>check_field(e))
             }; break;
             case 'ST': {
                 const input = document.createElement('select')
@@ -129,6 +142,7 @@ function open_create() {
                     opt.innerText = val.value
                 })
                 fields.item.status = input
+                input.addEventListener('change',(e)=>check_field(e))
             }; break;
             case 'AF': {
                 const input = document.createElement('input')
@@ -144,7 +158,7 @@ function open_create() {
                     file_zone.appendChild(text_blck)
                     text_blck.innerText = 'Файли'
                     text_blck.className = 'text'
-                    fields.docs.files = createFileUploadContainer(file_zone)
+                    fields.files = createFileUploadContainer(file_zone)
                 })
             }; break;
             case 'AC': {
@@ -153,7 +167,16 @@ function open_create() {
                 input.type = 'button'
                 input.value = field.name
                 input.addEventListener('click', async () => {
-
+                    let err = false
+                    for (const item in fields.item) {
+                        console.log(fields.item[item])
+                        if (fields.item[item].value == '' || fields.item[item].value == 0) {
+                            err = true
+                        }
+                    }
+                    try {
+                        console.log(await fields.files())
+                    } catch { }
                 })
             }; break;
         }

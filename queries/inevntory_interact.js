@@ -15,9 +15,12 @@ const inv = (req) => {
                             } else {
                                 resolve({ result: false })
                             }
-                            if(err) console.log(err)
+                            if (err) console.log(err)
                         })
                     }; break;
+                    case 'createItem': {
+
+                    }
                 }
             } else {
                 resolve({ result: 'error', message: 'Помилка аутентифікації' });

@@ -36,6 +36,16 @@
             align-items: center;
             gap: 0.5em;
             min-width: min-content;
+
+            .item-field input,
+            .item-field select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                border: 0.1em solid black;
+                border-radius: 0.4em;
+                padding: 0.2em;
+                text-align: center;
+            }
         }
     }
 

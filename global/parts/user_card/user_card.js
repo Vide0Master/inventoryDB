@@ -45,7 +45,6 @@ function process_user_card() {
     info_button.innerText = 'Інформація'
     info_button.addEventListener('click', () => {
         const overlay = document.createElement('div')
-
         overlay.className = 'overlay'
         document.body.appendChild(overlay)
         const shade = document.createElement('div')
@@ -60,6 +59,8 @@ function process_user_card() {
                 overlay.remove()
             })
         })
+
+        
         const fields = [
             { name: `Ім'я:`, value: '' },
             { name: `Логін:`, value: account.login },

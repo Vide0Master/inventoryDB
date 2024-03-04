@@ -84,5 +84,70 @@ button:hover {
 }
 
 .login_block {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3em;
+}
+
+.overlay {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .shade {
+        position: absolute;
+        z-index: 1001;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        animation: fadeIn 0.3s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(0.3em);
+    }
+
+    .mkey-login-block {
+        position: absolute;
+        z-index: 1002;
+        background-color: white;
+        padding: 1em;
+        animation: fadeIn 0.3s;
+        border: 0.3em solid red;
+        border-radius: 1em;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6em;
+
+        .input {
+        }
+    }
+
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
 }

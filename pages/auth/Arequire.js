@@ -30,7 +30,6 @@ function loadScriptAsync(reqr) {
 }
 
 function head_require(requirements) {
-    // Using reduce to chain promises sequentially
     return requirements.reduce((promise, reqr) => {
         return promise.then(() => loadScriptAsync(reqr));
     }, Promise.resolve());

@@ -57,6 +57,10 @@ function createFileUploadContainer(parentElement) {
                     fbbcStyle = '#ababab'
                     filetype = 'STRG_DOCTYPE'
                 }; break;
+                case 'pdf':{
+                    fbbcStyle = '#F40F02'
+                    filetype = 'STRG_DOCTYPE'
+                };break
             }
             if (file.type.startsWith('image/')) {
                 fbbcStyle = '#fcb542'
@@ -68,6 +72,10 @@ function createFileUploadContainer(parentElement) {
             fileItem.innerText = file.name
 
             const type_list = document.createElement('select')
+            type_list.style.borderColor='red'
+            type_list.addEventListener('change',()=>{
+                if(type_list.value!='') type_list.style.borderColor='green'
+            })
             type_list.className = 'type-list'
             const placeholder = document.createElement('option')
             type_list.appendChild(placeholder)

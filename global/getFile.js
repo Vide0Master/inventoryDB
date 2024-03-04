@@ -4,7 +4,7 @@ async function downloadFile(id, type) {
             alert('Id не введене',2000,'error')
             return
         }
-        const responseData = await request('/api/fileInteract','sendFile',{
+        const responseData = await request('/api/fileInteract','getFile',{
             id: id
         })
         console.log(responseData)
@@ -40,7 +40,6 @@ async function downloadFile(id, type) {
     }
 }
 
-// Функция для конвертации base64 строки в Blob объект с указанием MIME-типа
 function b64toBlob(b64Data, contentType = '') {
     const byteCharacters = atob(b64Data);
     const byteArrays = [];

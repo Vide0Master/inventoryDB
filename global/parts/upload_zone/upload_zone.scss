@@ -89,7 +89,9 @@
                     word-break: break-all;
                 }
 
-                .type-list {}
+                .type-list {
+                    border: 0.15em solid;
+                }
             }
 
             .file-remove {

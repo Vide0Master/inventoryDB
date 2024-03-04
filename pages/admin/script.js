@@ -17,12 +17,11 @@ function init_loader() {
     content.appendChild(btnsw)
     btnsw.innerText = 'Показати'
     btnsw.addEventListener('click', async () => {
-        await downloadFile(field.value, 'data')
+        downloadFile(field.value, 'data')
             .then((value) => {
                 const img = document.createElement('img')
                 content.appendChild(img)
                 img.src=value
-                
             })
             .catch((error) => {
                 console.error('Error loading scripts or styles:', error);

@@ -1,9 +1,9 @@
 function open_create() {
-    function check_field(e){
+    function check_field(e) {
         const elem = e.target
-        if(['','0'].includes(elem.value.toString().trim())){
+        if (['', '0'].includes(elem.value.toString().trim())) {
             elem.style.borderColor = 'red'
-        }else{
+        } else {
             elem.style.borderColor = 'green'
         }
     }
@@ -64,31 +64,34 @@ function open_create() {
         switch (field.tag) {
             case 'IN': {
                 const input = document.createElement('input')
+                input.style.borderColor = 'orange'
                 data_field.appendChild(input)
                 input.type = 'number'
                 input.placeholder = field.name
                 fields.item.inv_number = input
                 input.addEventListener('change', async () => {
-                    if (input.value == 0) { input.style.borderColor = 'red' }
                     const id_state = await request('/api/inevntory_interact', 'checkID', { id: input.value })
                     if (id_state.result) {
                         alert(`Інвентарний номер ${input.value} зайнято!`, 2500, 'error')
-                        input.style.borderBottomColor = 'red'
+                        input.style.borderColor = 'red'
                     } else {
-                        input.style.borderBottomColor = 'green'
+                        input.style.borderColor = 'green'
                     }
+                    if (['', '0'].includes(input.value.toString().trim())) { input.style.borderColor = 'red' }
                 })
             }; break;
             case 'NM': {
                 const input = document.createElement('input')
+                input.style.borderColor = 'orange'
                 data_field.appendChild(input)
                 input.type = 'text'
                 input.placeholder = field.name
                 fields.item.item_name = input
-                input.addEventListener('change',(e)=>check_field(e))
+                input.addEventListener('change', (e) => check_field(e))
             }; break;
             case 'TP': {
                 const input = document.createElement('select')
+                input.style.borderColor = 'orange'
                 data_field.appendChild(input)
                 const placeholder = document.createElement('option')
                 input.appendChild(placeholder)
@@ -106,7 +109,7 @@ function open_create() {
                     opt.innerText = val.value
                 })
                 fields.item.item_type = input
-                input.addEventListener('change',(e)=>check_field(e))
+                input.addEventListener('change', (e) => check_field(e))
             }; break;
             case 'CS': {
                 const input = document.createElement('input')
@@ -121,10 +124,10 @@ function open_create() {
                 input.type = 'text'
                 input.placeholder = field.name
                 fields.item.comment = input
-                input.addEventListener('change',(e)=>check_field(e))
             }; break;
             case 'ST': {
                 const input = document.createElement('select')
+                input.style.borderColor = 'orange'
                 data_field.appendChild(input)
                 const placeholder = document.createElement('option')
                 input.appendChild(placeholder)
@@ -142,7 +145,7 @@ function open_create() {
                     opt.innerText = val.value
                 })
                 fields.item.status = input
-                input.addEventListener('change',(e)=>check_field(e))
+                input.addEventListener('change', (e) => check_field(e))
             }; break;
             case 'AF': {
                 const input = document.createElement('input')
@@ -167,16 +170,45 @@ function open_create() {
                 input.type = 'button'
                 input.value = field.name
                 input.addEventListener('click', async () => {
+                    let trasnport_container = {
+                        item: {
+                            inv_number: null,
+                            item_name: null,
+                            item_type: null,
+                            cost: null,
+                            comment: null,
+                            status: null
+                        },
+                        files: null
+                    }
                     let err = false
+                    let itr = 0
                     for (const item in fields.item) {
-                        console.log(fields.item[item])
-                        if (fields.item[item].value == '' || fields.item[item].value == 0) {
+                        const itm = fields.item[item]
+                        trasnport_container.item[item] = itm.value
+                        const bcol = itm.style.borderColor
+                        if (['red', 'orange'].includes(bcol)) {
+                            switch (bcol) {
+                                case 'red': alert(`Невірне значення поля ${dat_types[itr].name}`, 0, 'error'); break;
+                                case 'orange': alert(`Значення поля ${dat_types[itr].name} не введено`, 0, 'warn'); break;
+                            }
                             err = true
                         }
+                        itr++
                     }
                     try {
-                        console.log(await fields.files())
+                        const fls = await fields.files()
+                        if (fls.size == 0) {
+                            alert(`Не було обрано жодного файлу завантаження`, 5000, 'error')
+                            return
+                        }
+                        if(fls=='err') err=true
+                        trasnport_container.files = fls
                     } catch { }
+                    if (err) return
+                    console.log(trasnport_container)
+                    const response = await request('/api/inevntory_interact','createItem',trasnport_container)
+                    alert(response.message, 5000, response.result)
                 })
             }; break;
         }
